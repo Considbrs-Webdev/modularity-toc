@@ -2,20 +2,22 @@
 
 namespace ModularityToc;
 
+use ModularityToc\AcfFields\AcfFieldLoader;
 use ModularityToc\Helper\CacheBust;
 
 class App
 {
     public function __construct()
     {
-        //Register module
+        // Register module
         add_action('init', array($this, 'registerModule'));
 
-        //Enqueue scripts and styles
+        // Enqueue scripts and styles
         add_action('wp_enqueue_scripts', array($this, 'enqueueStyles'));
         add_action('wp_enqueue_scripts', array($this, 'enqueueScripts'));
 
-        
+        // Load ACF field values
+        new AcfFieldLoader();
     }
 
     /**

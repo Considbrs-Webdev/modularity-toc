@@ -19,7 +19,13 @@ class TableOfContents extends \Modularity\Module
     {
         $fields = $this->getFields();
 
-        $data = [];
+        $data = [
+            'ID' => uniqid('toc-'),
+            'sidebars' => !empty($fields['sidebars']) ? $fields['sidebars'] : [],
+            'headingLevels' => !empty($fields['heading_levels']) ? $fields['heading_levels'] : ['h2'],
+            'placeInCard' => !empty($fields['place_in_card']) ? $fields['place_in_card'] : false,
+            'ignoreCardSubHeaders' => !empty($fields['ignore_card_sub_headers']) ? $fields['ignore_card_sub_headers'] : false,
+        ];
 
         return $data;
     }
