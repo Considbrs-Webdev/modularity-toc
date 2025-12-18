@@ -289,14 +289,30 @@ class TableOfContents {
             item.classList.remove('c-toc__item--active');
         });
 
-        // Add active class to current item
+        // Add active class to current item and update track position
         const activeLink = this.listElement.querySelector(`a[href="#${headingId}"]`);
         if (activeLink) {
             const activeItem = activeLink.closest('.c-toc__item');
             if (activeItem) {
                 activeItem.classList.add('c-toc__item--active');
+                this.updateTrackPosition(activeItem);
             }
         }
+    }
+
+    /**
+     * Update the sliding track position to match the active item
+     * @param {HTMLElement} activeItem - The active list item element
+     */
+    updateTrackPosition(activeItem) {
+        const listRect = this.listElement.getBoundingClientRect();
+        const itemRect = activeItem.getBoundingClientRect();
+        
+        const top = itemRect.top - listRect.top;
+        const height = itemRect.height;
+
+        this.listElement.style.setProperty('--toc-track-top', `${top}px`);
+        this.listElement.style.setProperty('--toc-track-height', `${height}px`);
     }
 }
 
