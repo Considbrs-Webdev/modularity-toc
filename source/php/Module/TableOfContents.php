@@ -21,6 +21,7 @@ class TableOfContents extends \Modularity\Module
 
         $data = [
             'ID' => uniqid('toc-'),
+            'title' => __('Find on page', 'municipio'),
             'sidebars' => !empty($fields['sidebars']) ? $fields['sidebars'] : [],
             'headingLevels' => !empty($fields['heading_levels']) ? $fields['heading_levels'] : ['h2'],
             'placeInCard' => !empty($fields['place_in_card']) ? $fields['place_in_card'] : false,

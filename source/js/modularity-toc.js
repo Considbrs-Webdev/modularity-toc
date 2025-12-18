@@ -27,6 +27,9 @@ class TableOfContents {
         this.tocElement = tocElement;
         this.config = config;
         this.listElement = tocElement.querySelector('.c-toc__list');
+        this.headings = [];
+        this.observer = null;
+        this.activeHeadingId = null;
         
         if (!this.listElement) {
             console.warn('TOC list element not found');
@@ -40,15 +43,16 @@ class TableOfContents {
      * Initialize the table of contents
      */
     init() {
-        const headings = this.findHeadings();
+        this.headings = this.findHeadings();
         
-        if (headings.length === 0) {
+        if (this.headings.length === 0) {
             this.tocElement.style.display = 'none';
             return;
         }
 
-        this.ensureHeadingIds(headings);
-        this.renderToc(headings);
+        this.ensureHeadingIds(this.headings);
+        this.renderToc(this.headings);
+        this.setupObserver();
     }
 
     /**
@@ -214,6 +218,85 @@ class TableOfContents {
         // Set focus for accessibility
         heading.setAttribute('tabindex', '-1');
         heading.focus({ preventScroll: true });
+    }
+
+    /**
+     * Set up IntersectionObserver to track active heading
+     */
+    setupObserver() {
+        // Set the first heading as active initially
+        if (this.headings.length > 0) {
+            this.setActiveHeading(this.headings[0].id);
+        }
+
+        const header = document.querySelector('.c-header__main-upper-area-container');
+        const headerHeight = header ? header.offsetHeight : 0;
+
+        const options = {
+            root: null,
+            rootMargin: `-${headerHeight}px 0px -70% 0px`,
+            threshold: 0
+        };
+
+        this.observer = new IntersectionObserver((entries) => {
+            this.handleIntersection(entries);
+        }, options);
+
+        this.headings.forEach(heading => {
+            this.observer.observe(heading);
+        });
+    }
+
+    /**
+     * Handle intersection observer entries
+     * @param {IntersectionObserverEntry[]} entries - Observer entries
+     */
+    handleIntersection(entries) {
+        // Find all currently intersecting headings
+        const visibleHeadings = [];
+        
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                visibleHeadings.push(entry.target);
+            }
+        });
+
+        // If we have visible headings, use the first one in document order
+        if (visibleHeadings.length > 0) {
+            // Sort by position in the headings array (document order)
+            visibleHeadings.sort((a, b) => {
+                return this.headings.indexOf(a) - this.headings.indexOf(b);
+            });
+            
+            this.setActiveHeading(visibleHeadings[0].id);
+        }
+    }
+
+    /**
+     * Set the active heading and update TOC link styling
+     * @param {string} headingId - The ID of the active heading
+     */
+    setActiveHeading(headingId) {
+        if (this.activeHeadingId === headingId) {
+            return;
+        }
+
+        this.activeHeadingId = headingId;
+
+        // Remove active class from all items
+        const allItems = this.listElement.querySelectorAll('.c-toc__item');
+        allItems.forEach(item => {
+            item.classList.remove('c-toc__item--active');
+        });
+
+        // Add active class to current item
+        const activeLink = this.listElement.querySelector(`a[href="#${headingId}"]`);
+        if (activeLink) {
+            const activeItem = activeLink.closest('.c-toc__item');
+            if (activeItem) {
+                activeItem.classList.add('c-toc__item--active');
+            }
+        }
     }
 }
 
