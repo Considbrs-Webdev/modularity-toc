@@ -1,4 +1,7 @@
 .modularity-mod-toc {
+    --modularity-toc-mobile-handle-bg: var(--c-button-primary-color, #333);
+    --modularity-toc-mobile-handle-color: var(--c-button-primary-color-contrasting, #fff);
+    --modularity-toc-mobile-handle-bg-hover: var(--c-button-primary-color-hover, var(--c-button-primary-color, #222));
 
     &.modularity-mod-toc--hide-mobile {
         @media (max-width: 78em) {
@@ -18,8 +21,8 @@
                 transform: translateY(-50%);
                 width: 48px;
                 height: 64px;
-                background-color: var(--color-primary, #333);
-                color: white;
+                background-color: var(--modularity-toc-mobile-handle-bg);
+                color: var(--modularity-toc-mobile-handle-color);
                 border: none;
                 border-radius: 8px 0 0 8px;
                 cursor: pointer;
@@ -31,12 +34,13 @@
                 transition: background-color 0.2s ease;
 
                 &:hover {
-                    background-color: var(--color-primary-dark, #222);
+                    background-color: var(--modularity-toc-mobile-handle-bg-hover);
                 }
 
                 svg {
                     width: 24px;
                     height: 24px;
+                    color: inherit;
                 }
             }
 
