@@ -146,6 +146,11 @@
         }
     }
 
+    // Remove top margin from TOC heading
+    .c-toc-drawer h2 {
+        margin-top: 0;
+    }
+
     .c-toc__list {
         list-style: none;
         margin: calc(var(--base, 8px)*2) 0 0 0;

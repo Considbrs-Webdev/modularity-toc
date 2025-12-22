@@ -416,6 +416,7 @@ function initMobileDrawer() {
     let activeFocusTrapHandler = null;
     let lastFocusedElement = null;
     let activeDrawer = null;
+    let isTransitioning = false;
 
     /**
      * Keep focus inside drawer on any focus change
@@ -441,6 +442,11 @@ function initMobileDrawer() {
      * @param {HTMLElement} moduleElement 
      */
     function openDrawer(moduleElement) {
+        // Prevent opening if transitioning
+        if (isTransitioning) return;
+        
+        isTransitioning = true;
+        
         const drawer = moduleElement.querySelector('.c-toc-drawer');
         const toggleButton = moduleElement.querySelector('[data-toc-toggle]');
         
@@ -473,6 +479,11 @@ function initMobileDrawer() {
 
         // Close on Escape key
         document.addEventListener('keydown', handleEscapeKey);
+        
+        // Allow transitions after a short delay
+        setTimeout(() => {
+            isTransitioning = false;
+        }, 400);
     }
 
     /**
@@ -480,6 +491,11 @@ function initMobileDrawer() {
      * @param {HTMLElement} moduleElement 
      */
     function closeDrawer(moduleElement) {
+        // Prevent closing if transitioning
+        if (isTransitioning) return;
+        
+        isTransitioning = true;
+        
         const drawer = moduleElement.querySelector('.c-toc-drawer');
         const toggleButton = moduleElement.querySelector('[data-toc-toggle]');
 
@@ -508,6 +524,11 @@ function initMobileDrawer() {
             lastFocusedElement.focus();
             lastFocusedElement = null;
         }
+        
+        // Allow transitions after a short delay
+        setTimeout(() => {
+            isTransitioning = false;
+        }, 400);
     }
 
     /**
