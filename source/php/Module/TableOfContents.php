@@ -30,7 +30,7 @@ class TableOfContents extends \Modularity\Module
             'headingLevels' => !empty($fields['heading_levels']) ? $fields['heading_levels'] : ['h2'],
             'placeInCard' => !empty($fields['place_in_card']) ? $fields['place_in_card'] : false,
             'ignoreCardSubHeaders' => !empty($fields['ignore_card_sub_headers']) ? $fields['ignore_card_sub_headers'] : false,
-            'slidingTrack' => !empty($slidingTrack) ? $slidingTrack : true,
+            'slidingTrack' => is_bool($slidingTrack) ? $slidingTrack : true,
         ];
 
         return $data;

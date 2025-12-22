@@ -30,11 +30,15 @@ class TableOfContents {
         this.headings = [];
         this.observer = null;
         this.activeHeadingId = null;
+        this.hasTrack = false;
         
         if (!this.listElement) {
             console.warn('TOC list element not found');
             return;
         }
+
+        // Check if track is enabled
+        this.hasTrack = this.listElement.classList.contains('c-toc__list--track');
 
         this.init();
     }
@@ -135,9 +139,12 @@ class TableOfContents {
     renderToc(headings) {
         const getLevel = (heading) => parseInt(heading.tagName.charAt(1), 10);
         
+        // Preserve the track class from the original list element
+        const trackClass = this.hasTrack ? ' c-toc__list--track' : '';
+        
         const buildNestedList = (headings, startIndex = 0, parentLevel = 0) => {
             const ul = document.createElement('ul');
-            ul.className = startIndex === 0 ? 'c-toc__list' : 'c-toc__sublist';
+            ul.className = startIndex === 0 ? 'c-toc__list' + trackClass : 'c-toc__sublist';
             
             let i = startIndex;
             
@@ -295,7 +302,11 @@ class TableOfContents {
             const activeItem = activeLink.closest('.c-toc__item');
             if (activeItem) {
                 activeItem.classList.add('c-toc__item--active');
-                this.updateTrackPosition(activeItem);
+                
+                // Only update track position if track is enabled
+                if (this.hasTrack) {
+                    this.updateTrackPosition(activeItem);
+                }
             }
         }
     }

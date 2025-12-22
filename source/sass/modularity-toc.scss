@@ -154,7 +154,7 @@
             padding: 0;
         }
 
-        // Sliding track indicator
+        // Sliding track indicator (hidden by default)
         &::before {
             content: '';
             position: absolute;
@@ -164,9 +164,10 @@
             width: var(--toc-border-width, 4px);
             background-color: var(--toc-track-color, #666);
             transition: top 300ms ease-out, height 300ms ease-out;
+            display: none;
         }
 
-        // Background track
+        // Background track (hidden by default)
         &::after {
             content: '';
             position: absolute;
@@ -176,10 +177,30 @@
             width: var(--toc-border-width, 4px);
             background-color: var(--toc-border-color, #ccc);
             z-index: -1;
+            display: none;
+        }
+
+        // Show sliding track when enabled
+        &.c-toc__list--track {
+
+            &::before,
+            &::after {
+                display: block;
+            }
+
+            // Only add left padding when track is visible
+            >.c-toc__item {
+                padding-left: calc(var(--base, 8px)*4);
+            }
         }
 
         .c-toc__item {
-            padding: var(--base, 8px) 0 var(--base, 8px) calc(var(--base, 8px)*4);
+            padding: var(--base, 8px) 0;
+        }
+
+        // Sublist items always have left padding for indentation
+        .c-toc__sublist .c-toc__item {
+            padding-left: calc(var(--base, 8px)*4);
         }
 
         .c-toc__item+.c-toc__item {

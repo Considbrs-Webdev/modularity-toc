@@ -37,7 +37,7 @@
 
             <div class="c-card__body">
                 <nav id="{{ $ID }}" class="c-toc" aria-label="{{ __('Table of Contents', 'modularity-toc') }}">
-                    <ul class="c-toc__list"></ul>
+                    <ul class="c-toc__list {{ $slidingTrack ? 'c-toc__list--track' : '' }}"></ul>
                 </nav>
             </div>
         @endcard
@@ -49,7 +49,7 @@
             {{ $title }}
         @endtypography
         <nav id="{{ $ID }}" class="c-toc" aria-label="{{ __('Table of Contents', 'modularity-toc') }}">
-            <ul class="c-toc__list"></ul>
+            <ul class="c-toc__list {{ $slidingTrack ? 'c-toc__list--track' : '' }}"></ul>
         </nav>
     @endif
 </div>
