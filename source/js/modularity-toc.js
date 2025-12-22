@@ -317,6 +317,88 @@ class TableOfContents {
 }
 
 /**
+ * Initialize mobile drawer functionality
+ */
+function initMobileDrawer() {
+    /**
+     * Calculate and set header height as CSS variable
+     */
+    function setHeaderHeight() {
+        if (document.body.classList.contains('sticky-header')) {
+            const header = document.querySelector('header.c-header');
+            if (header) {
+                let headerHeight = header.offsetHeight;
+                
+                // Add WordPress admin bar height if present
+                if (document.body.classList.contains('admin-bar')) {
+                    headerHeight += 32;
+                }
+                
+                document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
+            }
+        }
+    }
+
+    // Set header height on init
+    setHeaderHeight();
+
+    // Update header height on resize
+    window.addEventListener('resize', setHeaderHeight);
+
+    // Handle toggle buttons (open)
+    document.querySelectorAll('[data-toc-toggle]').forEach(button => {
+        button.addEventListener('click', () => {
+            const tocId = button.getAttribute('data-toc-toggle');
+            const moduleElement = button.closest('.modularity-mod-toc');
+            
+            if (moduleElement) {
+                setHeaderHeight(); // Update header height before opening
+                moduleElement.classList.add('is-toc-open');
+                document.body.style.overflow = 'hidden';
+            }
+        });
+    });
+
+    // Handle close buttons
+    document.querySelectorAll('[data-toc-close]').forEach(button => {
+        button.addEventListener('click', () => {
+            const moduleElement = button.closest('.modularity-mod-toc');
+            
+            if (moduleElement) {
+                moduleElement.classList.remove('is-toc-open');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+
+    // Handle overlay clicks
+    document.querySelectorAll('[data-toc-overlay]').forEach(overlay => {
+        overlay.addEventListener('click', () => {
+            const moduleElement = overlay.closest('.modularity-mod-toc');
+            
+            if (moduleElement) {
+                moduleElement.classList.remove('is-toc-open');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+
+    // Close drawer when clicking TOC links on mobile
+    document.querySelectorAll('.c-toc__link').forEach(link => {
+        link.addEventListener('click', () => {
+            const moduleElement = link.closest('.modularity-mod-toc');
+            
+            if (moduleElement && window.innerWidth < 1248) { // 78em = 1248px
+                setTimeout(() => {
+                    moduleElement.classList.remove('is-toc-open');
+                    document.body.style.overflow = '';
+                }, 300); // Small delay to allow smooth scroll to start
+            }
+        });
+    });
+}
+
+/**
  * Initialize all TOC instances on the page
  */
 function initTableOfContents() {
@@ -334,6 +416,9 @@ function initTableOfContents() {
             console.error('Failed to initialize TOC:', e);
         }
     });
+
+    // Initialize mobile drawer
+    initMobileDrawer();
 }
 
 // Initialize when DOM is ready

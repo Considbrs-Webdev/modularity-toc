@@ -6,6 +6,27 @@
     'title' => __('Table of Contents General Settings', 'modularity-toc'),
     'fields' => array(
         0 => array(
+            'key' => 'field_69496200d7556',
+            'label' => __('Show sliding track?', 'modularity-toc'),
+            'name' => 'sliding_track',
+            'aria-label' => '',
+            'type' => 'true_false',
+            'instructions' => '',
+            'required' => 0,
+            'conditional_logic' => 0,
+            'wrapper' => array(
+                'width' => '',
+                'class' => '',
+                'id' => '',
+            ),
+            'message' => '',
+            'default_value' => 1,
+            'allow_in_bindings' => 0,
+            'ui_on_text' => '',
+            'ui_off_text' => '',
+            'ui' => 1,
+        ),
+        1 => array(
             'key' => 'field_69450b34e27e2',
             'label' => __('Hide on mobile?', 'modularity-toc'),
             'name' => 'hide_on_mobile',

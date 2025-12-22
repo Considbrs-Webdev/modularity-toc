@@ -1,9 +1,144 @@
 .modularity-mod-toc {
 
-    // Hide on mobile if hideOnMobile option is enabled
     &.modularity-mod-toc--hide-mobile {
         @media (max-width: 78em) {
             display: none;
+        }
+    }
+
+    // Mobile drawer functionality (below 78em)
+    @media (max-width: 78em) {
+        &:not(.modularity-mod-toc--hide-mobile) {
+
+            // Mobile handle button
+            .c-toc-mobile-handle {
+                position: fixed;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 48px;
+                height: 64px;
+                background-color: var(--color-primary, #333);
+                color: white;
+                border: none;
+                border-radius: 8px 0 0 8px;
+                cursor: pointer;
+                z-index: 999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: -2px 2px 8px rgba(0, 0, 0, 0.2);
+                transition: background-color 0.2s ease;
+
+                &:hover {
+                    background-color: var(--color-primary-dark, #222);
+                }
+
+                svg {
+                    width: 24px;
+                    height: 24px;
+                }
+            }
+
+            // Overlay
+            .c-toc-overlay {
+                position: fixed;
+                inset: 0;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 9999;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+
+                // When body has sticky header, start below header
+                body.sticky-header & {
+                    top: var(--header-height, 0);
+                }
+            }
+
+            // Drawer
+            .c-toc-drawer {
+                position: fixed;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                width: 85vw;
+                max-width: 400px;
+                background-color: white;
+                z-index: 10000;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                overflow-y: auto;
+                padding: calc(var(--base, 8px) * 3);
+                box-shadow: -4px 0 16px rgba(0, 0, 0, 0.2);
+
+                // When body has sticky header, start below header
+                body.sticky-header & {
+                    top: var(--header-height, 0);
+                }
+            }
+
+            // Close button
+            .c-toc-close {
+                position: absolute;
+                top: calc(var(--base, 8px) * 2);
+                right: calc(var(--base, 8px) * 2);
+                width: 40px;
+                height: 40px;
+                border: none;
+                background: transparent;
+                cursor: pointer;
+                color: #666;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: color 0.2s ease;
+
+                &:hover {
+                    color: #000;
+                }
+
+                svg {
+                    width: 24px;
+                    height: 24px;
+                }
+            }
+
+            // Open state
+            &.is-toc-open {
+                .c-toc-mobile-handle {
+                    display: none;
+                }
+
+                .c-toc-overlay {
+                    opacity: 1;
+                    visibility: visible;
+                }
+
+                .c-toc-drawer {
+                    transform: translateX(0);
+                }
+            }
+        }
+    }
+
+    // Desktop (78em and above) - hide mobile elements
+    @media (min-width: 78em) {
+
+        .c-toc-mobile-handle,
+        .c-toc-overlay,
+        .c-toc-close {
+            display: none !important;
+        }
+
+        .c-toc-drawer {
+            position: static;
+            width: auto;
+            max-width: none;
+            transform: none;
+            padding: 0;
+            box-shadow: none;
+            overflow: visible;
         }
     }
 

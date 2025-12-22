@@ -3,6 +3,27 @@
     "title": "Table of Contents General Settings",
     "fields": [
         {
+            "key": "field_69496200d7556",
+            "label": "Show sliding track?",
+            "name": "sliding_track",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "allow_in_bindings": 0,
+            "ui_on_text": "",
+            "ui_off_text": "",
+            "ui": 1
+        },
+        {
             "key": "field_69450b34e27e2",
             "label": "Hide on mobile?",
             "name": "hide_on_mobile",
