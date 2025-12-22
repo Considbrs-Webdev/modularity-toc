@@ -1,6 +1,6 @@
 [{
     "key": "group_69424998c467b",
-    "title": "Table of contents",
+    "title": "Table of Contents Settings",
     "fields": [
         {
             "key": "field_6942499969780",
@@ -113,6 +113,13 @@
                 "param": "post_type",
                 "operator": "==",
                 "value": "mod-toc"
+            }
+        ],
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "all"
             }
         ],
         [

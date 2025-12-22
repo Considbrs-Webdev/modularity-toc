@@ -40,7 +40,8 @@ add_action('acf/init', function () {
     $acfExportManager->setTextdomain('modularity-toc');
     $acfExportManager->setExportFolder(MODULARITY_TOC_PATH . 'source/php/AcfFields/');
     $acfExportManager->autoExport(array(
-        'settings' => 'group_69424998c467b'
+        'general-settings' => 'group_69450b33eef44',
+        'instance-settings' => 'group_69424998c467b',
     ));
     $acfExportManager->import();
 }); 
