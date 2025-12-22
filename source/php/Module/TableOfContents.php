@@ -14,6 +14,8 @@ class TableOfContents extends \Modularity\Module
         $this->nameSingular = __('Table of Contents', 'modularity-toc');
         $this->namePlural = __('Table of Contents', 'modularity-toc');
         $this->description = __('Display table of contents', 'modularity-toc');
+
+        add_filter('Modularity/Display/BeforeModule::classes', array($this, 'addModuleClasses'), 10, 4);
     }
 
     public function data(): array
@@ -32,6 +34,30 @@ class TableOfContents extends \Modularity\Module
         ];
 
         return $data;
+    }
+
+    /**
+     * Add custom classes to module wrapper
+     * @param array $classes
+     * @param array $args
+     * @param string $postType
+     * @param int $moduleId
+     * @return array
+     */
+    public function addModuleClasses($classes, $args, $postType, $moduleId)
+    {
+        // Only apply to this module type
+        if ($postType !== 'mod-' . $this->slug) {
+            return $classes;
+        }
+
+        $hideOnMobile = get_field('hide_on_mobile', 'modularity-toc-settings');
+        
+        if (!empty($hideOnMobile)) {
+            $classes[] = 'modularity-mod-toc--hide-mobile';
+        }
+
+        return $classes;
     }
 
     /**

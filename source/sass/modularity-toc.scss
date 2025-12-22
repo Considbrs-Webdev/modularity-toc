@@ -1,4 +1,12 @@
 .modularity-mod-toc {
+
+    // Hide on mobile if hideOnMobile option is enabled
+    &.modularity-mod-toc--hide-mobile {
+        @media (max-width: 78em) {
+            display: none;
+        }
+    }
+
     .c-toc__list {
         list-style: none;
         margin: calc(var(--base, 8px)*2) 0 0 0;
