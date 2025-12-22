@@ -442,6 +442,7 @@ function initMobileDrawer() {
      */
     function openDrawer(moduleElement) {
         const drawer = moduleElement.querySelector('.c-toc-drawer');
+        const toggleButton = moduleElement.querySelector('[data-toc-toggle]');
         
         // Save last focused element to restore later
         lastFocusedElement = document.activeElement;
@@ -450,6 +451,12 @@ function initMobileDrawer() {
         setHeaderHeight();
         moduleElement.classList.add('is-toc-open');
         document.body.style.overflow = 'hidden';
+
+        // Update ARIA attributes
+        if (toggleButton) {
+            toggleButton.setAttribute('aria-expanded', 'true');
+        }
+        drawer.setAttribute('aria-hidden', 'false');
 
         // Focus the close button
         const closeButton = drawer.querySelector('[data-toc-close]');
@@ -473,8 +480,19 @@ function initMobileDrawer() {
      * @param {HTMLElement} moduleElement 
      */
     function closeDrawer(moduleElement) {
+        const drawer = moduleElement.querySelector('.c-toc-drawer');
+        const toggleButton = moduleElement.querySelector('[data-toc-toggle]');
+
         moduleElement.classList.remove('is-toc-open');
         document.body.style.overflow = '';
+
+        // Update ARIA attributes
+        if (toggleButton) {
+            toggleButton.setAttribute('aria-expanded', 'false');
+        }
+        if (drawer) {
+            drawer.setAttribute('aria-hidden', 'true');
+        }
 
         // Remove focus trap
         if (activeFocusTrapHandler) {
@@ -550,9 +568,29 @@ function initMobileDrawer() {
             const moduleElement = link.closest('.modularity-mod-toc');
             
             if (moduleElement && window.innerWidth < 1248) { // 78em = 1248px
-                setTimeout(() => {
+                // Use scrollend event to close after smooth scroll finishes
+                const closeAfterScroll = () => {
                     closeDrawer(moduleElement);
-                }, 300); // Small delay to allow smooth scroll to start
+                    window.removeEventListener('scrollend', closeAfterScroll);
+                };
+
+                // Check if browser supports scrollend event
+                if ('onscrollend' in window) {
+                    window.addEventListener('scrollend', closeAfterScroll, { once: true });
+                    
+                    // Fallback timeout in case scrollend doesn't fire (e.g., already at position)
+                    setTimeout(() => {
+                        window.removeEventListener('scrollend', closeAfterScroll);
+                        if (moduleElement.classList.contains('is-toc-open')) {
+                            closeDrawer(moduleElement);
+                        }
+                    }, 2000);
+                } else {
+                    // Fallback for older browsers
+                    setTimeout(() => {
+                        closeDrawer(moduleElement);
+                    }, 750);
+                }
             }
         });
     });
