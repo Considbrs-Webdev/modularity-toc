@@ -4,6 +4,342 @@
  * Generates a linked table of contents based on headings found in specified containers.
  */
 
+/**
+ * Focus trap manager for drawer accessibility
+ */
+class FocusTrap {
+    constructor() {
+        this.activeDrawer = null;
+        this.lastFocusedElement = null;
+        this.trapHandler = null;
+        this.focusInHandler = null;
+        this.escapeHandler = null;
+    }
+
+    /**
+     * Get all focusable elements within a container
+     * @param {HTMLElement} container 
+     * @returns {HTMLElement[]}
+     */
+    getFocusableElements(container) {
+        const focusableSelectors = [
+            'a[href]',
+            'button:not([disabled])',
+            'input:not([disabled])',
+            'select:not([disabled])',
+            'textarea:not([disabled])',
+            '[tabindex]:not([tabindex="-1"])'
+        ];
+        return Array.from(container.querySelectorAll(focusableSelectors.join(', '))).filter(
+            el => el.offsetParent !== null // Only visible elements
+        );
+    }
+
+    /**
+     * Handle Tab key focus trap
+     * @param {KeyboardEvent} e 
+     * @param {HTMLElement} drawer 
+     */
+    handleTabKey(e, drawer) {
+        if (e.key !== 'Tab') return;
+
+        const focusableElements = this.getFocusableElements(drawer);
+        if (focusableElements.length === 0) {
+            e.preventDefault();
+            return;
+        }
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+        const activeElement = document.activeElement;
+        const focusIsInDrawer = drawer.contains(activeElement);
+
+        if (!focusIsInDrawer) {
+            e.preventDefault();
+            firstElement.focus();
+            return;
+        }
+
+        if (e.shiftKey) {
+            if (activeElement === firstElement) {
+                e.preventDefault();
+                lastElement.focus();
+            }
+        } else {
+            if (activeElement === lastElement) {
+                e.preventDefault();
+                firstElement.focus();
+            }
+        }
+    }
+
+    /**
+     * Handle focus changes to keep focus in drawer
+     * @param {FocusEvent} e 
+     */
+    handleFocusIn = (e) => {
+        if (!this.activeDrawer) return;
+        
+        if (!this.activeDrawer.contains(e.target)) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const focusableElements = this.getFocusableElements(this.activeDrawer);
+            if (focusableElements.length > 0) {
+                focusableElements[0].focus();
+            }
+        }
+    }
+
+    /**
+     * Handle Escape key
+     * @param {KeyboardEvent} e 
+     */
+    handleEscape = (e) => {
+        if (e.key === 'Escape' && this.onEscape) {
+            this.onEscape();
+        }
+    }
+
+    /**
+     * Activate focus trap
+     * @param {HTMLElement} drawer 
+     * @param {Function} onEscape - Callback for Escape key
+     */
+    activate(drawer, onEscape) {
+        this.lastFocusedElement = document.activeElement;
+        this.activeDrawer = drawer;
+        this.onEscape = onEscape;
+
+        this.trapHandler = (e) => this.handleTabKey(e, drawer);
+        this.focusInHandler = this.handleFocusIn;
+        this.escapeHandler = this.handleEscape;
+
+        document.addEventListener('keydown', this.trapHandler);
+        document.addEventListener('focusin', this.focusInHandler);
+        document.addEventListener('keydown', this.escapeHandler);
+    }
+
+    /**
+     * Deactivate focus trap
+     */
+    deactivate() {
+        if (this.trapHandler) {
+            document.removeEventListener('keydown', this.trapHandler);
+            this.trapHandler = null;
+        }
+        if (this.focusInHandler) {
+            document.removeEventListener('focusin', this.focusInHandler);
+            this.focusInHandler = null;
+        }
+        if (this.escapeHandler) {
+            document.removeEventListener('keydown', this.escapeHandler);
+            this.escapeHandler = null;
+        }
+
+        if (this.lastFocusedElement) {
+            this.lastFocusedElement.focus();
+            this.lastFocusedElement = null;
+        }
+
+        this.activeDrawer = null;
+        this.onEscape = null;
+    }
+}
+
+/**
+ * Mobile drawer manager
+ */
+class MobileDrawer {
+    static MOBILE_BREAKPOINT = 1248; // 78em = 1248px
+
+    constructor(moduleElement, focusTrap) {
+        this.moduleElement = moduleElement;
+        this.focusTrap = focusTrap;
+        this.isTransitioning = false;
+        this.originalParent = moduleElement.parentElement;
+        this.originalNextSibling = moduleElement.nextSibling;
+        
+        this.init();
+    }
+
+    /**
+     * Initialize mobile drawer
+     */
+    init() {
+        this.setupEventListeners();
+        this.handleResponsivePosition();
+        window.addEventListener('resize', () => this.handleResponsivePosition());
+        this.setHeaderHeight();
+        window.addEventListener('resize', () => this.setHeaderHeight());
+    }
+
+    /**
+     * Move TOC element based on viewport size
+     */
+    handleResponsivePosition() {
+        const isMobile = window.innerWidth < MobileDrawer.MOBILE_BREAKPOINT;
+        
+        if (isMobile) {
+            // Move to end of body for proper z-index
+            if (this.moduleElement.parentElement !== document.body) {
+                document.body.appendChild(this.moduleElement);
+            }
+        } else {
+            // Return to original position
+            if (this.moduleElement.parentElement === document.body) {
+                if (this.originalNextSibling) {
+                    this.originalParent.insertBefore(this.moduleElement, this.originalNextSibling);
+                } else {
+                    this.originalParent.appendChild(this.moduleElement);
+                }
+            }
+        }
+    }
+
+    /**
+     * Calculate and set header height as CSS variable
+     */
+    setHeaderHeight() {
+        if (document.body.classList.contains('sticky-header')) {
+            const header = document.querySelector('header.c-header');
+            if (header) {
+                let headerHeight = header.offsetHeight;
+                
+                if (document.body.classList.contains('admin-bar')) {
+                    headerHeight += 32;
+                }
+                
+                document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
+            }
+        }
+    }
+
+    /**
+     * Setup event listeners for drawer controls
+     */
+    setupEventListeners() {
+        // Toggle button
+        const toggleButton = this.moduleElement.querySelector('[data-toc-toggle]');
+        if (toggleButton) {
+            toggleButton.addEventListener('click', () => this.open());
+        }
+
+        // Close button
+        const closeButton = this.moduleElement.querySelector('[data-toc-close]');
+        if (closeButton) {
+            closeButton.addEventListener('click', () => this.close());
+        }
+
+        // Overlay
+        const overlay = this.moduleElement.querySelector('[data-toc-overlay]');
+        if (overlay) {
+            overlay.addEventListener('click', () => this.close());
+        }
+
+        // TOC links
+        const links = this.moduleElement.querySelectorAll('.c-toc__link');
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < MobileDrawer.MOBILE_BREAKPOINT) {
+                    this.closeAfterScroll();
+                }
+            });
+        });
+    }
+
+    /**
+     * Open the drawer
+     */
+    open() {
+        if (this.isTransitioning) return;
+        
+        this.isTransitioning = true;
+        
+        const drawer = this.moduleElement.querySelector('.c-toc-drawer');
+        const toggleButton = this.moduleElement.querySelector('[data-toc-toggle]');
+        
+        this.setHeaderHeight();
+        this.moduleElement.classList.add('is-toc-open');
+
+        // Update ARIA
+        if (toggleButton) {
+            toggleButton.setAttribute('aria-expanded', 'true');
+        }
+        if (drawer) {
+            drawer.setAttribute('aria-hidden', 'false');
+        }
+
+        // Focus close button
+        const closeButton = drawer.querySelector('[data-toc-close]');
+        if (closeButton) {
+            setTimeout(() => closeButton.focus(), 100);
+        }
+
+        // Activate focus trap
+        this.focusTrap.activate(drawer, () => this.close());
+        
+        setTimeout(() => {
+            this.isTransitioning = false;
+        }, 400);
+    }
+
+    /**
+     * Close the drawer
+     */
+    close() {
+        if (this.isTransitioning) return;
+        
+        this.isTransitioning = true;
+        
+        const drawer = this.moduleElement.querySelector('.c-toc-drawer');
+        const toggleButton = this.moduleElement.querySelector('[data-toc-toggle]');
+
+        this.moduleElement.classList.remove('is-toc-open');
+
+        // Update ARIA
+        if (toggleButton) {
+            toggleButton.setAttribute('aria-expanded', 'false');
+        }
+        if (drawer) {
+            drawer.setAttribute('aria-hidden', 'true');
+        }
+
+        // Deactivate focus trap
+        this.focusTrap.deactivate();
+        
+        setTimeout(() => {
+            this.isTransitioning = false;
+        }, 400);
+    }
+
+    /**
+     * Close drawer after scroll completes
+     */
+    closeAfterScroll() {
+        const closeHandler = () => {
+            this.close();
+            window.removeEventListener('scrollend', closeHandler);
+        };
+
+        if ('onscrollend' in window) {
+            window.addEventListener('scrollend', closeHandler, { once: true });
+            
+            setTimeout(() => {
+                window.removeEventListener('scrollend', closeHandler);
+                if (this.moduleElement.classList.contains('is-toc-open')) {
+                    this.close();
+                }
+            }, 2000);
+        } else {
+            setTimeout(() => this.close(), 750);
+        }
+    }
+}
+
+/**
+ * Table of Contents generator
+ */
 class TableOfContents {
     /**
      * Container selectors to search for headings, in priority order
@@ -328,299 +664,12 @@ class TableOfContents {
 }
 
 /**
- * Initialize mobile drawer functionality
- */
-function initMobileDrawer() {
-    /**
-     * Calculate and set header height as CSS variable
-     */
-    function setHeaderHeight() {
-        if (document.body.classList.contains('sticky-header')) {
-            const header = document.querySelector('header.c-header');
-            if (header) {
-                let headerHeight = header.offsetHeight;
-                
-                // Add WordPress admin bar height if present
-                if (document.body.classList.contains('admin-bar')) {
-                    headerHeight += 32;
-                }
-                
-                document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
-            }
-        }
-    }
-
-    /**
-     * Get all focusable elements within a container
-     * @param {HTMLElement} container 
-     * @returns {HTMLElement[]}
-     */
-    function getFocusableElements(container) {
-        const focusableSelectors = [
-            'a[href]',
-            'button:not([disabled])',
-            'input:not([disabled])',
-            'select:not([disabled])',
-            'textarea:not([disabled])',
-            '[tabindex]:not([tabindex="-1"])'
-        ];
-        return Array.from(container.querySelectorAll(focusableSelectors.join(', '))).filter(
-            el => el.offsetParent !== null // Only visible elements
-        );
-    }
-
-    /**
-     * Handle focus trap within drawer - prevents ALL tab navigation outside
-     * @param {KeyboardEvent} e 
-     * @param {HTMLElement} drawer 
-     */
-    function handleFocusTrap(e, drawer) {
-        if (e.key !== 'Tab') return;
-
-        const focusableElements = getFocusableElements(drawer);
-        if (focusableElements.length === 0) {
-            e.preventDefault();
-            return;
-        }
-
-        const firstElement = focusableElements[0];
-        const lastElement = focusableElements[focusableElements.length - 1];
-        const activeElement = document.activeElement;
-
-        // Check if focus is currently inside the drawer
-        const focusIsInDrawer = drawer.contains(activeElement);
-
-        if (!focusIsInDrawer) {
-            // Focus escaped somehow, bring it back
-            e.preventDefault();
-            firstElement.focus();
-            return;
-        }
-
-        if (e.shiftKey) {
-            // Shift + Tab: if on first element, go to last
-            if (activeElement === firstElement) {
-                e.preventDefault();
-                lastElement.focus();
-            }
-        } else {
-            // Tab: if on last element, go to first
-            if (activeElement === lastElement) {
-                e.preventDefault();
-                firstElement.focus();
-            }
-        }
-    }
-
-    // Track active focus trap
-    let activeFocusTrapHandler = null;
-    let lastFocusedElement = null;
-    let activeDrawer = null;
-    let isTransitioning = false;
-
-    /**
-     * Keep focus inside drawer on any focus change
-     * @param {FocusEvent} e 
-     */
-    function handleFocusIn(e) {
-        if (!activeDrawer) return;
-        
-        // If focus moved outside the drawer, bring it back
-        if (!activeDrawer.contains(e.target)) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const focusableElements = getFocusableElements(activeDrawer);
-            if (focusableElements.length > 0) {
-                focusableElements[0].focus();
-            }
-        }
-    }
-
-    /**
-     * Open drawer with focus trap
-     * @param {HTMLElement} moduleElement 
-     */
-    function openDrawer(moduleElement) {
-        // Prevent opening if transitioning
-        if (isTransitioning) return;
-        
-        isTransitioning = true;
-        
-        const drawer = moduleElement.querySelector('.c-toc-drawer');
-        const toggleButton = moduleElement.querySelector('[data-toc-toggle]');
-        
-        // Save last focused element to restore later
-        lastFocusedElement = document.activeElement;
-        activeDrawer = drawer;
-        
-        setHeaderHeight();
-        moduleElement.classList.add('is-toc-open');
-        document.body.style.overflow = 'hidden';
-
-        // Update ARIA attributes
-        if (toggleButton) {
-            toggleButton.setAttribute('aria-expanded', 'true');
-        }
-        drawer.setAttribute('aria-hidden', 'false');
-
-        // Focus the close button
-        const closeButton = drawer.querySelector('[data-toc-close]');
-        if (closeButton) {
-            setTimeout(() => closeButton.focus(), 100);
-        }
-
-        // Set up focus trap via Tab key
-        activeFocusTrapHandler = (e) => handleFocusTrap(e, drawer);
-        document.addEventListener('keydown', activeFocusTrapHandler);
-
-        // Also trap focus on any focus change (catches mouse clicks, etc.)
-        document.addEventListener('focusin', handleFocusIn);
-
-        // Close on Escape key
-        document.addEventListener('keydown', handleEscapeKey);
-        
-        // Allow transitions after a short delay
-        setTimeout(() => {
-            isTransitioning = false;
-        }, 400);
-    }
-
-    /**
-     * Close drawer and release focus trap
-     * @param {HTMLElement} moduleElement 
-     */
-    function closeDrawer(moduleElement) {
-        // Prevent closing if transitioning
-        if (isTransitioning) return;
-        
-        isTransitioning = true;
-        
-        const drawer = moduleElement.querySelector('.c-toc-drawer');
-        const toggleButton = moduleElement.querySelector('[data-toc-toggle]');
-
-        moduleElement.classList.remove('is-toc-open');
-        document.body.style.overflow = '';
-
-        // Update ARIA attributes
-        if (toggleButton) {
-            toggleButton.setAttribute('aria-expanded', 'false');
-        }
-        if (drawer) {
-            drawer.setAttribute('aria-hidden', 'true');
-        }
-
-        // Remove focus trap
-        if (activeFocusTrapHandler) {
-            document.removeEventListener('keydown', activeFocusTrapHandler);
-            activeFocusTrapHandler = null;
-        }
-        document.removeEventListener('keydown', handleEscapeKey);
-        document.removeEventListener('focusin', handleFocusIn);
-        activeDrawer = null;
-
-        // Restore focus to trigger button
-        if (lastFocusedElement) {
-            lastFocusedElement.focus();
-            lastFocusedElement = null;
-        }
-        
-        // Allow transitions after a short delay
-        setTimeout(() => {
-            isTransitioning = false;
-        }, 400);
-    }
-
-    /**
-     * Handle Escape key to close drawer
-     * @param {KeyboardEvent} e 
-     */
-    function handleEscapeKey(e) {
-        if (e.key === 'Escape') {
-            const openModule = document.querySelector('.modularity-mod-toc.is-toc-open');
-            if (openModule) {
-                closeDrawer(openModule);
-            }
-        }
-    }
-
-    // Set header height on init
-    setHeaderHeight();
-
-    // Update header height on resize
-    window.addEventListener('resize', setHeaderHeight);
-
-    // Handle toggle buttons (open)
-    document.querySelectorAll('[data-toc-toggle]').forEach(button => {
-        button.addEventListener('click', () => {
-            const moduleElement = button.closest('.modularity-mod-toc');
-            
-            if (moduleElement) {
-                openDrawer(moduleElement);
-            }
-        });
-    });
-
-    // Handle close buttons
-    document.querySelectorAll('[data-toc-close]').forEach(button => {
-        button.addEventListener('click', () => {
-            const moduleElement = button.closest('.modularity-mod-toc');
-            
-            if (moduleElement) {
-                closeDrawer(moduleElement);
-            }
-        });
-    });
-
-    // Handle overlay clicks
-    document.querySelectorAll('[data-toc-overlay]').forEach(overlay => {
-        overlay.addEventListener('click', () => {
-            const moduleElement = overlay.closest('.modularity-mod-toc');
-            
-            if (moduleElement) {
-                closeDrawer(moduleElement);
-            }
-        });
-    });
-
-    // Close drawer when clicking TOC links on mobile
-    document.querySelectorAll('.c-toc__link').forEach(link => {
-        link.addEventListener('click', () => {
-            const moduleElement = link.closest('.modularity-mod-toc');
-            
-            if (moduleElement && window.innerWidth < 1248) { // 78em = 1248px
-                // Use scrollend event to close after smooth scroll finishes
-                const closeAfterScroll = () => {
-                    closeDrawer(moduleElement);
-                    window.removeEventListener('scrollend', closeAfterScroll);
-                };
-
-                // Check if browser supports scrollend event
-                if ('onscrollend' in window) {
-                    window.addEventListener('scrollend', closeAfterScroll, { once: true });
-                    
-                    // Fallback timeout in case scrollend doesn't fire (e.g., already at position)
-                    setTimeout(() => {
-                        window.removeEventListener('scrollend', closeAfterScroll);
-                        if (moduleElement.classList.contains('is-toc-open')) {
-                            closeDrawer(moduleElement);
-                        }
-                    }, 2000);
-                } else {
-                    // Fallback for older browsers
-                    setTimeout(() => {
-                        closeDrawer(moduleElement);
-                    }, 750);
-                }
-            }
-        });
-    });
-}
-
-/**
  * Initialize all TOC instances on the page
  */
 function initTableOfContents() {
+    // Create shared focus trap instance
+    const focusTrap = new FocusTrap();
+    
     const configElements = document.querySelectorAll('script[data-toc-config]');
 
     configElements.forEach(configElement => {
@@ -629,15 +678,19 @@ function initTableOfContents() {
             const tocElement = document.getElementById(config.id);
 
             if (tocElement) {
+                // Initialize TOC content
                 new TableOfContents(tocElement, config);
+                
+                // Initialize mobile drawer for the module
+                const moduleElement = tocElement.closest('.modularity-mod-toc');
+                if (moduleElement) {
+                    new MobileDrawer(moduleElement, focusTrap);
+                }
             }
         } catch (e) {
             console.error('Failed to initialize TOC:', e);
         }
     });
-
-    // Initialize mobile drawer
-    initMobileDrawer();
 }
 
 // Initialize when DOM is ready

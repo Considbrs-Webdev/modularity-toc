@@ -74,7 +74,7 @@
                 transition: transform 0.3s ease;
                 overflow-y: auto;
                 padding: calc(var(--base, 8px) * 3);
-                box-shadow: -4px 0 16px rgba(0, 0, 0, 0.2);
+                box-shadow: -4px 20px 16px rgba(0, 0, 0, 0.2);
 
                 // When body has sticky header, start below header
                 body.sticky-header & {
