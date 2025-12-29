@@ -1,7 +1,9 @@
 <?php 
 
-if (function_exists('acf_add_local_field_group')) {
-    acf_add_local_field_group(array(
+
+if (function_exists('acf_add_local_field_group')) {
+
+    acf_add_local_field_group(array(
     'key' => 'group_69424998c467b',
     'title' => __('Table of Contents Settings', 'modularity-toc'),
     'fields' => array(
@@ -124,13 +126,6 @@
             0 => array(
                 'param' => 'block',
                 'operator' => '==',
-                'value' => 'all',
-            ),
-        ),
-        2 => array(
-            0 => array(
-                'param' => 'block',
-                'operator' => '==',
                 'value' => 'acf/toc',
             ),
         ),
@@ -152,4 +147,5 @@
     'acfe_meta' => '',
     'acfe_note' => '',
 ));
-}
+
+}

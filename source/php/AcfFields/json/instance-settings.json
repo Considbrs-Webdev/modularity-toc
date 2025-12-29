@@ -119,13 +119,6 @@
             {
                 "param": "block",
                 "operator": "==",
-                "value": "all"
-            }
-        ],
-        [
-            {
-                "param": "block",
-                "operator": "==",
                 "value": "acf\/toc"
             }
         ]
@@ -147,4 +140,4 @@
     "acfe_meta": "",
     "acfe_note": ""
 }]
-
+
