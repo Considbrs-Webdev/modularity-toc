@@ -47,6 +47,27 @@
             'ui_off_text' => '',
             'ui' => 1,
         ),
+        2 => array(
+            'key' => 'field_6953e99550eef',
+            'label' => __('Sticky list?', 'modularity-toc'),
+            'name' => 'sticky_list',
+            'aria-label' => '',
+            'type' => 'true_false',
+            'instructions' => __('Try to make the entire column where the table of contents module is placed sticky', 'modularity-toc'),
+            'required' => 0,
+            'conditional_logic' => 0,
+            'wrapper' => array(
+                'width' => '',
+                'class' => '',
+                'id' => '',
+            ),
+            'message' => '',
+            'default_value' => 0,
+            'allow_in_bindings' => 0,
+            'ui_on_text' => '',
+            'ui_off_text' => '',
+            'ui' => 1,
+        ),
     ),
     'location' => array(
         0 => array(

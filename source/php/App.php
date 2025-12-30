@@ -21,8 +21,6 @@ class App
 
         // Load ACF field values
         new AcfFieldLoader();
-
-        
     }
 
     /**

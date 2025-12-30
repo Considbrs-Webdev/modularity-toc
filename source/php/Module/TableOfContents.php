@@ -15,7 +15,18 @@ class TableOfContents extends \Modularity\Module
         $this->namePlural = __('Table of Contents', 'modularity-toc');
         $this->description = __('Display table of contents', 'modularity-toc');
 
+        // Add custom classes to module wrapper
         add_filter('Modularity/Display/BeforeModule::classes', array($this, 'addModuleClasses'), 10, 4);
+
+        add_filter('body_class', function ($classes) {
+            $sticky_toc_column = get_field('sticky_list', 'modularity-toc-settings');
+
+            if ($sticky_toc_column) {
+                $classes[] = 'modularity-toc--sticky-sidebar';
+            }
+
+            return $classes;
+        });
     }
 
     public function data(): array

@@ -1,3 +1,7 @@
+:root {
+  --sticky-sidebar-top: calc(50px + var(--wp-admin--admin-bar--height, 0px));
+}
+
 .modularity-mod-toc {
   --modularity-toc-mobile-handle-bg: var(--c-button-primary-color, #333);
   --modularity-toc-mobile-handle-color: var(
@@ -221,11 +225,10 @@
   }
 }
 
-#sidebar-right-sidebar {
-  position: sticky;
-  top: 50px;
-}
-
-body #main-content {
-  overflow-x: revert !important;
+body.modularity-toc--sticky-sidebar {
+  #sidebar-left-sidebar:has(.modularity-mod-toc),
+  #sidebar-right-sidebar:has(.modularity-mod-toc) {
+    position: sticky;
+    top: var(--sticky-sidebar-top);
+  }
 }

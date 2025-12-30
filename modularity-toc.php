@@ -23,7 +23,7 @@ define('MODULARITY_TOC_URL', plugins_url('', __FILE__));
 define('MODULARITY_TOC_VIEW_PATH', MODULARITY_TOC_PATH . 'views/');
 define('MODULARITY_TOC_MODULE_VIEW_PATH', plugin_dir_path(__FILE__) . 'source/php/Module/views');
 define('MODULARITY_TOC_MODULE_PATH', MODULARITY_TOC_PATH . 'source/php/Module/');
-
+    
 add_action('init', function() {
     load_plugin_textdomain('modularity-toc', false, plugin_basename(dirname(__FILE__)) . '/languages');
 }); 
