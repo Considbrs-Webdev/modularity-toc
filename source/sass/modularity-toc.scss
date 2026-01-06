@@ -179,7 +179,7 @@
       top: var(--toc-track-top, 0);
       height: var(--toc-track-height, 0);
       width: var(--toc-border-width, 4px);
-      background-color: var(--toc-track-color, #666);
+      background-color: var(--toc-track-indicator, #666);
       transition: top 300ms ease-out, height 300ms ease-out;
       display: none;
     }
@@ -191,8 +191,8 @@
       left: 0;
       top: 0;
       bottom: 0;
-      width: var(--toc-border-width, 4px);
-      background-color: var(--toc-border-color, #ccc);
+      width: var(--toc-track-width, 4px);
+      background-color: var(--toc-track-color, #ccc);
       z-index: -1;
       display: none;
     }
@@ -212,6 +212,18 @@
 
     .c-toc__item {
       padding: var(--base, 8px) 0;
+    }
+
+    .c-toc__link {
+      color: var(--toc-link-color, var(--color-link, #000));
+      font-size: var(--toc-link-font-size, inherit);
+      font-weight: var(--toc-link-font-weight, normal);
+      text-decoration: var(--toc-link-decoration, none);
+
+      &:hover {
+        color: var(--toc-link-color-hover, var(--color-link-hover, #333));
+        text-decoration: var(--toc-link-decoration, underline);
+      }
     }
 
     // Sublist items always have left padding for indentation
