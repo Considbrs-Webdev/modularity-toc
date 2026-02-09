@@ -396,6 +396,24 @@ class TableOfContents {
     }
 
     /**
+     * Check if an element is visible
+     * @param {HTMLElement} element - Element to check
+     * @returns {boolean} True if element is visible
+     */
+    isElementVisible(element) {
+        // Check if element or any parent has display: none
+        let current = element;
+        while (current && current !== document.body) {
+            const style = window.getComputedStyle(current);
+            if (style.display === 'none' || style.visibility === 'hidden') {
+                return false;
+            }
+            current = current.parentElement;
+        }
+        return true;
+    }
+
+    /**
      * Find all matching headings in the specified containers
      * @returns {HTMLElement[]} Array of heading elements
      */
@@ -403,13 +421,40 @@ class TableOfContents {
         const headings = [];
         const selector = this.config.headingLevels.join(', ');
 
-        for (const containerSelector of TableOfContents.CONTAINER_SELECTORS) {
+        // Build container selectors based on config.sidebars if provided
+        let containerSelectors = TableOfContents.CONTAINER_SELECTORS;
+        
+        if (this.config.sidebars && this.config.sidebars.length > 0) {
+            // Map sidebar identifiers to their corresponding selectors
+            const sidebarMap = {
+                'content-area-top': '#sidebar-content-area-top',
+                'content-area': '#sidebar-content-area',
+                'content-area-bottom': '#sidebar-content-area-bottom',
+                'article': 'article.c-article'
+            };
+            
+            containerSelectors = this.config.sidebars
+                .map(sidebar => sidebarMap[sidebar])
+                .filter(selector => selector !== undefined);
+
+            // Always include article by default
+            if (!containerSelectors.includes('article.c-article')) {
+                containerSelectors.push('article.c-article');
+            }
+        }
+
+        for (const containerSelector of containerSelectors) {
             const container = document.querySelector(containerSelector);
             
             if (container) {
                 const containerHeadings = container.querySelectorAll(selector);
                 
                 for (const heading of containerHeadings) {
+                    // Skip if heading is not visible
+                    if (!this.isElementVisible(heading)) {
+                        continue;
+                    }
+                    
                     // If ignoreCardSubHeaders is enabled, skip headings inside .c-card
                     // that are not in .c-card__header
                     if (this.config.ignoreCardSubHeaders) {
@@ -423,6 +468,14 @@ class TableOfContents {
                 }
             }
         }
+
+        // Sort headings by their position in the DOM
+        headings.sort((a, b) => {
+            const position = a.compareDocumentPosition(b);
+            if (position & Node.DOCUMENT_POSITION_FOLLOWING) return -1;
+            if (position & Node.DOCUMENT_POSITION_PRECEDING) return 1;
+            return 0;
+        });
 
         return headings;
     }
@@ -459,9 +512,24 @@ class TableOfContents {
      * @returns {string} Slugified text
      */
     slugify(text) {
+        // Character replacements for special characters
+        const charMap = {
+            'å': 'a', 'ä': 'a', 'ö': 'o',
+            'Å': 'a', 'Ä': 'a', 'Ö': 'o',
+            'é': 'e', 'è': 'e', 'ë': 'e', 'ê': 'e',
+            'á': 'a', 'à': 'a', 'â': 'a', 'ã': 'a',
+            'ó': 'o', 'ò': 'o', 'ô': 'o', 'õ': 'o',
+            'ú': 'u', 'ù': 'u', 'û': 'u', 'ü': 'u',
+            'í': 'i', 'ì': 'i', 'î': 'i', 'ï': 'i',
+            'ñ': 'n', 'ç': 'c'
+        };
+
         return text
             .toLowerCase()
             .trim()
+            .split('')
+            .map(char => charMap[char] || char)
+            .join('')
             .replace(/[^\w\s-]/g, '')
             .replace(/[\s_-]+/g, '-')
             .replace(/^-+|-+$/g, '')
