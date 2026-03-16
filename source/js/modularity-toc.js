@@ -248,6 +248,7 @@ class TableOfContents {
                 link.textContent = heading.textContent;
                 link.addEventListener('click', (event) => {
                     event.preventDefault();
+                    this.setActiveHeading(heading.id);
                     this.scrollToHeading(heading);
                     this.closeMobileDropdown();
                 });
