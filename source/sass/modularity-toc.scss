@@ -2,166 +2,38 @@
   --sticky-sidebar-top: calc(50px + var(--wp-admin--admin-bar--height, 0px));
 }
 
+body.sticky-header {
+  --sticky-sidebar-top: calc(var(--header-height, 0px) + 16px);
+  --sticky-sidebar-max-height: calc(100vh - var(--sticky-sidebar-top) - 16px);
+}
+
+@media (min-width: 62em) {
+  .modularity-mod-toc:has(.c-toc-root--hide-desktop) {
+    display: none;
+  }
+}
+
 .modularity-mod-toc {
-  --modularity-toc-mobile-handle-bg: var(--c-button-primary-color, #333);
-  --modularity-toc-mobile-handle-color: var(
-    --c-button-primary-color-contrasting,
-    #fff
-  );
-  --modularity-toc-mobile-handle-bg-hover: var(
-    --c-button-primary-color-hover,
-    var(--c-button-primary-color, #222)
-  );
-
-  &.modularity-mod-toc--hide-mobile {
-    @media (max-width: 78em) {
-      display: none;
-    }
+  .c-toc-root[hidden] {
+    display: none;
   }
 
-  // Mobile drawer functionality (below 78em)
-  @media (max-width: 78em) {
-    &:not(.modularity-mod-toc--hide-mobile) {
-      // Mobile handle button
-      .c-toc-mobile-handle {
-        position: fixed;
-        right: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 48px;
-        height: 64px;
-        background-color: var(--modularity-toc-mobile-handle-bg);
-        color: var(--modularity-toc-mobile-handle-color);
-        border: none;
-        border-radius: 8px 0 0 8px;
-        cursor: pointer;
-        z-index: 999;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: -2px 2px 8px rgba(0, 0, 0, 0.2);
-        transition: background-color 0.2s ease;
-
-        &:hover {
-          background-color: var(--modularity-toc-mobile-handle-bg-hover);
-        }
-
-        svg {
-          width: 24px;
-          height: 24px;
-          color: inherit;
-        }
-      }
-
-      // Overlay
-      .c-toc-overlay {
-        position: fixed;
-        inset: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 9999;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-
-        // When body has sticky header, start below header
-        body.sticky-header & {
-          top: var(--header-height, 0);
-        }
-      }
-
-      // Drawer
-      .c-toc-drawer {
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        width: 85vw;
-        max-width: 400px;
-        background-color: white;
-        z-index: 10000;
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-        overflow-y: auto;
-        padding: calc(var(--base, 8px) * 3);
-        box-shadow: -4px 20px 16px rgba(0, 0, 0, 0.2);
-
-        // When body has sticky header, start below header
-        body.sticky-header & {
-          top: var(--header-height, 0);
-        }
-      }
-
-      // Close button
-      .c-toc-close {
-        position: absolute;
-        top: calc(var(--base, 8px) * 2);
-        right: calc(var(--base, 8px) * 2);
-        width: 40px;
-        height: 40px;
-        border: none;
-        background: transparent;
-        cursor: pointer;
-        color: #666;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: color 0.2s ease;
-
-        &:hover {
-          color: #000;
-        }
-
-        svg {
-          width: 24px;
-          height: 24px;
-        }
-      }
-
-      // Open state
-      &.is-toc-open {
-        .c-toc-mobile-handle {
-          display: none;
-        }
-
-        .c-toc-overlay {
-          opacity: 1;
-          visibility: visible;
-        }
-
-        .c-toc-drawer {
-          transform: translateX(0);
-        }
-      }
-    }
-  }
-
-  // Desktop (78em and above) - hide mobile elements
-  @media (min-width: 78em) {
-    .c-toc-mobile-handle,
-    .c-toc-overlay,
-    .c-toc-close {
-      display: none !important;
-    }
-
-    .c-toc-drawer {
-      position: static;
-      width: auto;
-      max-width: none;
-      transform: none;
-      padding: 0;
-      box-shadow: none;
-      overflow: visible;
-    }
-  }
-
-  // Remove top margin from TOC heading
-  .c-toc-drawer h2 {
+  .c-toc__heading h2 {
     margin-top: 0;
+  }
+
+  .c-toc__toggle-icon {
+    flex-shrink: 0;
+    transition: transform 180ms ease;
+  }
+
+  .c-toc__panel[hidden] {
+    display: none !important;
   }
 
   .c-toc__list {
     list-style: none;
-    margin: calc(var(--base, 8px) * 2) 0 0 0;
+    margin: calc(var(--base, 8px) * 2) 0 0;
     padding: 0;
     position: relative;
 
@@ -171,7 +43,6 @@
       padding: 0;
     }
 
-    // Sliding track indicator (hidden by default)
     &::before {
       content: "";
       position: absolute;
@@ -184,7 +55,6 @@
       display: none;
     }
 
-    // Background track (hidden by default)
     &::after {
       content: "";
       position: absolute;
@@ -197,14 +67,12 @@
       display: none;
     }
 
-    // Show sliding track when enabled
     &.c-toc__list--track {
       &::before,
       &::after {
         display: block;
       }
 
-      // Only add left padding when track is visible
       > .c-toc__item {
         padding-left: calc(var(--base, 8px) * 4);
       }
@@ -226,7 +94,6 @@
       }
     }
 
-    // Sublist items always have left padding for indentation
     .c-toc__sublist .c-toc__item {
       padding-left: calc(var(--base, 8px) * 4);
     }
@@ -237,10 +104,94 @@
   }
 }
 
-body.modularity-toc--sticky-sidebar {
-  #sidebar-left-sidebar:has(.modularity-mod-toc),
-  #sidebar-right-sidebar:has(.modularity-mod-toc) {
-    position: sticky;
-    top: var(--sticky-sidebar-top);
+// Mobile behavior
+@media (max-width: 62em) {
+  .modularity-mod-toc:has(.c-toc-root--hide-mobile) {
+    display: none;
+  }
+
+  .modularity-mod-toc {
+    .c-toc__toggle {
+      display: none;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      gap: calc(var(--base, 8px) * 2);
+      padding: calc(var(--base, 8px) * 2.5) calc(var(--base, 8px) * 3);
+      border: 1px solid var(--toc-mobile-border-color, #d6d6d6);
+      background: var(--toc-mobile-background, #fff);
+      color: var(--toc-mobile-color, inherit);
+      cursor: pointer;
+      font: inherit;
+      font-weight: 700;
+      text-align: left;
+
+      &[hidden] {
+        display: none !important;
+      }
+    }
+
+    .c-toc-root[data-mobile-behavior="dropdown"] {
+      .c-toc__heading {
+        display: none;
+      }
+
+      .c-toc__toggle {
+        display: flex;
+      }
+
+      .c-toc__panel {
+        border: 1px solid var(--toc-mobile-border-color, #d6d6d6);
+        border-top: 0;
+        padding: calc(var(--base, 8px) * 2.5) calc(var(--base, 8px) * 3);
+      }
+
+      &:not(.is-mobile-open) .c-toc__panel {
+        border: 0;
+        padding: 0;
+      }
+    }
+
+    .c-toc-root.is-mobile-open .c-toc__toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    .c-toc__list {
+      margin-top: 0;
+
+      &.c-toc__list--track {
+        &::before,
+        &::after {
+          display: none;
+        }
+
+        > .c-toc__item {
+          padding-left: 0;
+        }
+      }
+
+      .c-toc__sublist .c-toc__item {
+        padding-left: calc(var(--base, 8px) * 3);
+      }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modularity-mod-toc {
+    .c-toc__toggle-icon,
+    .c-toc__list::before {
+      transition: none;
+    }
+  }
+}
+
+@media (min-width: 62em) {
+  body.modularity-toc--sticky-sidebar {
+    #sidebar-left-sidebar:has(.modularity-mod-toc),
+    #sidebar-right-sidebar:has(.modularity-mod-toc) {
+      position: sticky;
+      top: var(--sticky-sidebar-top);
+    }
   }
 }
