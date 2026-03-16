@@ -1,33 +1,9 @@
-{{-- Mobile drawer handle (only visible below 78em) --}}
-<button class="c-toc-mobile-handle" aria-label="{{ __('Open table of contents', 'modularity-toc') }}" aria-expanded="false"
-    aria-controls="toc-drawer-{{ $ID }}" data-toc-toggle="{{ $ID }}">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
-        <line x1="3" y1="12" x2="21" y2="12"></line>
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <line x1="3" y1="18" x2="21" y2="18"></line>
-    </svg>
-</button>
-
-{{-- Overlay for mobile drawer --}}
-<div class="c-toc-overlay" data-toc-overlay="{{ $ID }}" aria-hidden="true"></div>
-
-{{-- TOC drawer wrapper --}}
-<div id="toc-drawer-{{ $ID }}" class="c-toc-drawer" data-toc-drawer="{{ $ID }}" role="dialog"
-    aria-modal="true" aria-labelledby="toc-title-{{ $ID }}" aria-hidden="true">
-    {{-- Close button for mobile --}}
-    <button class="c-toc-close" aria-label="{{ __('Close table of contents', 'modularity-toc') }}"
-        data-toc-close="{{ $ID }}">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-    </button>
-
+<div class="c-toc-root {{ $hideOnMobile ? 'c-toc-root--hide-mobile' : '' }} {{ $hideOnDesktop ? 'c-toc-root--hide-desktop' : '' }}"
+    data-toc-root="{{ $ID }}"
+    data-mobile-behavior="{{ $mobileBehavior }}">
     @if ($placeInCard)
         @card()
-            <div class="c-card__header">
+            <div class="c-card__header c-toc__heading">
                 @typography([
                     'element' => 'h2',
                     'variant' => 'h2',
@@ -38,22 +14,57 @@
             </div>
 
             <div class="c-card__body">
-                <nav id="{{ $ID }}" class="c-toc" aria-label="{{ __('Table of Contents', 'modularity-toc') }}">
-                    <ul class="c-toc__list {{ $slidingTrack ? 'c-toc__list--track' : '' }}"></ul>
-                </nav>
+                <button class="c-toc__toggle"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="toc-panel-{{ $ID }}"
+                    data-toc-toggle="{{ $ID }}"
+                    hidden>
+                    <span class="c-toc__toggle-label">{{ $title }}</span>
+                    <svg class="c-toc__toggle-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"
+                        focusable="false">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+
+                <div id="toc-panel-{{ $ID }}" class="c-toc__panel" data-toc-panel="{{ $ID }}">
+                    <nav id="{{ $ID }}" class="c-toc" aria-label="{{ __('Table of Contents', 'modularity-toc') }}">
+                        <ul class="c-toc__list {{ $slidingTrack ? 'c-toc__list--track' : '' }}"></ul>
+                    </nav>
+                </div>
             </div>
         @endcard
     @else
-        @typography([
-            'element' => 'h2',
-            'variant' => 'h2',
-            'id' => 'toc-title-' . $ID
-        ])
-            {{ $title }}
-        @endtypography
-        <nav id="{{ $ID }}" class="c-toc" aria-label="{{ __('Table of Contents', 'modularity-toc') }}">
-            <ul class="c-toc__list {{ $slidingTrack ? 'c-toc__list--track' : '' }}"></ul>
-        </nav>
+        <div class="c-toc__heading">
+            @typography([
+                'element' => 'h2',
+                'variant' => 'h2',
+                'id' => 'toc-title-' . $ID
+            ])
+                {{ $title }}
+            @endtypography
+        </div>
+
+        <button class="c-toc__toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="toc-panel-{{ $ID }}"
+            data-toc-toggle="{{ $ID }}"
+            hidden>
+            <span class="c-toc__toggle-label">{{ $title }}</span>
+            <svg class="c-toc__toggle-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"
+                focusable="false">
+                <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+        </button>
+
+        <div id="toc-panel-{{ $ID }}" class="c-toc__panel" data-toc-panel="{{ $ID }}">
+            <nav id="{{ $ID }}" class="c-toc" aria-label="{{ __('Table of Contents', 'modularity-toc') }}">
+                <ul class="c-toc__list {{ $slidingTrack ? 'c-toc__list--track' : '' }}"></ul>
+            </nav>
+        </div>
     @endif
 </div>
 
@@ -62,6 +73,7 @@
     "id": "{{ $ID }}",
     "sidebars": @json($sidebars),
     "headingLevels": @json($headingLevels),
-    "ignoreCardSubHeaders": @json($ignoreCardSubHeaders)
+    "ignoreCardSubHeaders": @json($ignoreCardSubHeaders),
+    "mobileBehavior": @json($mobileBehavior)
 }
 </script>
