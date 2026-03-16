@@ -114,6 +114,10 @@ class TableOfContents {
             if (!containerSelectors.includes('article.c-article')) {
                 containerSelectors.push('article.c-article');
             }
+
+            if (!containerSelectors.includes('.c-content-page')) {
+                containerSelectors.push('.c-content-page');
+            }
         }
 
         for (const containerSelector of containerSelectors) {
