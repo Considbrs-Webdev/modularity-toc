@@ -24,12 +24,12 @@
             "ui": 1
         },
         {
-            "key": "field_69450b34e27e2",
-            "label": "Hide on mobile?",
-            "name": "hide_on_mobile",
+            "key": "field_67d6a7b1b3c01",
+            "label": "Mobile behavior",
+            "name": "mobile_behavior",
             "aria-label": "",
-            "type": "true_false",
-            "instructions": "",
+            "type": "select",
+            "instructions": "Choose how visible table of contents modules should behave below 992px.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -37,12 +37,22 @@
                 "class": "",
                 "id": ""
             },
-            "message": "",
-            "default_value": 0,
+            "choices": {
+                "dropdown": "Dropdown",
+                "expanded": "Expanded list"
+            },
+            "default_value": "dropdown",
+            "return_format": "value",
+            "multiple": 0,
+            "allow_custom": 0,
+            "placeholder": "",
+            "allow_null": 0,
             "allow_in_bindings": 0,
-            "ui_on_text": "",
-            "ui_off_text": "",
-            "ui": 1
+            "ui": 1,
+            "ajax": 0,
+            "create_options": 0,
+            "save_options": 0,
+            "search_placeholder": ""
         },
         {
             "key": "field_6953e99550eef",
@@ -92,4 +102,4 @@
     "acfe_meta": "",
     "acfe_note": ""
 }]
-
+
