@@ -33,10 +33,13 @@ class TableOfContents extends \Modularity\Module
     {
         $fields = $this->getFields();
         $slidingTrack = get_field('sliding_track', 'modularity-toc-settings');
+        $title = !empty($this->data['post_title']) && is_string($this->data['post_title'])
+            ? $this->data['post_title']
+            : __('Find on page', 'municipio');
 
         $data = [
             'ID' => uniqid('toc-'),
-            'title' => __('Find on page', 'municipio'),
+            'title' => $title,
             'sidebars' => !empty($fields['sidebars']) ? $fields['sidebars'] : [],
             'headingLevels' => !empty($fields['heading_levels']) ? $fields['heading_levels'] : ['h2'],
             'placeInCard' => !empty($fields['place_in_card']) ? $fields['place_in_card'] : false,
