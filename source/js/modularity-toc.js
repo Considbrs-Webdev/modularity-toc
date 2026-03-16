@@ -454,6 +454,11 @@ class TableOfContents {
                     if (!this.isElementVisible(heading)) {
                         continue;
                     }
+
+                    // Never include headings rendered inside a TOC module.
+                    if (heading.closest('.modularity-mod-toc')) {
+                        continue;
+                    }
                     
                     // If ignoreCardSubHeaders is enabled, skip headings inside .c-card
                     // that are not in .c-card__header
