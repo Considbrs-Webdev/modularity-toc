@@ -348,7 +348,8 @@ class TableOfContents {
         '#sidebar-content-area-top',
         'article.c-article',
         '#sidebar-content-area',
-        '#sidebar-content-area-bottom'
+        '#sidebar-content-area-bottom',
+        '.c-content-page',
     ];
 
     /**
