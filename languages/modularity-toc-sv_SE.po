@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Modularity Table of Contents\n"
 "POT-Creation-Date: 2025-12-30 16:03+0100\n"
-"PO-Revision-Date: 2025-12-30 16:06+0100\n"
+"PO-Revision-Date: 2026-03-16 12:35+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: sv\n"
@@ -41,8 +41,20 @@ msgid "Show sliding track?"
 msgstr "Visa glidande styckeindikator?"
 
 #: source/php/AcfFields/php/general-settings.php:31
-msgid "Hide on mobile?"
-msgstr "Dölj på mobil?"
+msgid "Mobile behavior"
+msgstr "Mobilbeteende"
+
+#: source/php/AcfFields/php/general-settings.php:35
+msgid "Choose how visible table of contents modules should behave below 992px."
+msgstr "Välj hur synliga innehållsförteckningar ska bete sig under 992 px."
+
+#: source/php/AcfFields/php/general-settings.php:44
+msgid "Dropdown"
+msgstr "Rullgardinslista"
+
+#: source/php/AcfFields/php/general-settings.php:45
+msgid "Expanded list"
+msgstr "Expanderad lista"
 
 #: source/php/AcfFields/php/general-settings.php:52
 msgid "Sticky list?"
@@ -90,12 +102,22 @@ msgstr "Placera i kort?"
 
 #: source/php/AcfFields/php/instance-settings.php:88
 #: source/php/AcfFields/php/instance-settings.php:109
+#: source/php/AcfFields/php/instance-settings.php:130
+#: source/php/AcfFields/php/instance-settings.php:151
 msgid "Yes"
 msgstr "Ja"
 
 #: source/php/AcfFields/php/instance-settings.php:97
 msgid "Ignore all headings in card except for card header?"
 msgstr "Ignorera alla rubriker i kort förutom kortets rubrik?"
+
+#: source/php/AcfFields/php/instance-settings.php:118
+msgid "Hide on mobile?"
+msgstr "Dölj på mobil?"
+
+#: source/php/AcfFields/php/instance-settings.php:139
+msgid "Hide on desktop?"
+msgstr "Dölj på desktop?"
 
 #: source/php/App.php:88 source/php/Module/TableOfContents.php:14
 #: source/php/Module/TableOfContents.php:15
