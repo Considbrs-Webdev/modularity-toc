@@ -1,4 +1,4 @@
-<div class="c-toc-root {{ $hideOnMobile ? 'c-toc-root--hide-mobile' : '' }} {{ $hideOnDesktop ? 'c-toc-root--hide-desktop' : '' }}"
+<div class="c-toc-root toc-deploy-test-20260330 {{ $hideOnMobile ? 'c-toc-root--hide-mobile' : '' }} {{ $hideOnDesktop ? 'c-toc-root--hide-desktop' : '' }}"
     data-toc-root="{{ $ID }}"
     data-mobile-behavior="{{ $mobileBehavior }}">
     @if ($placeInCard)
