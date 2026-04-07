@@ -17,6 +17,8 @@ class TableOfContents extends \Modularity\Module
         $this->namePlural = __('Table of Contents', 'modularity-toc');
         $this->description = __('Display table of contents', 'modularity-toc');
 
+        add_filter('Modularity/Block/acf/toc/Data', [$this, 'useBlockTitle'], 10, 3);
+
         add_filter('body_class', function ($classes) {
             $sticky_toc_column = get_field('sticky_list', 'modularity-toc-settings');
 
@@ -63,6 +65,15 @@ class TableOfContents extends \Modularity\Module
         ];
 
         return $data;
+    }
+
+    public function useBlockTitle(array $viewData): array
+    {
+        if (!empty($viewData['postTitle']) && is_string($viewData['postTitle'])) {
+            $viewData['title'] = $viewData['postTitle'];
+        }
+
+        return $viewData;
     }
 
     private function usesModernDisplaySettings(array $fields): bool
