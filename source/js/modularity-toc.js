@@ -342,20 +342,25 @@ class MobileDrawer {
  */
 class TableOfContents {
     /**
-     * Container selectors to search for headings, in priority order
+     * Main content selector - always scanned for headings.
      */
-    static CONTAINER_SELECTORS = [
-        '#sidebar-content-area-top',
-        'article.c-article',
-        '#sidebar-content-area',
-        '#sidebar-content-area-bottom'
-    ];
+    static MAIN_CONTENT_SELECTOR = 'article.c-article';
+
+    /**
+     * Maps sidebar ACF values to DOM selectors.
+     * Only containers whose key appears in config.sidebars are scanned.
+     */
+    static SIDEBAR_SELECTOR_MAP = {
+        'content-area-top': '#sidebar-content-area-top',
+        'content-area': '#sidebar-content-area',
+        'content-area-bottom': '#sidebar-content-area-bottom',
+    };
 
     /**
      * @param {HTMLElement} tocElement - The TOC nav element
      * @param {Object} config - Configuration object
      * @param {string} config.id - Unique identifier for this TOC
-     * @param {string[]} config.sidebars - Sidebar identifiers (unused currently, reserved for future)
+     * @param {string[]} config.sidebars - Sidebar identifiers to include headings from (besides main content)
      * @param {string[]} config.headingLevels - Heading levels to include (e.g., ['h2', 'h3'])
      * @param {boolean} config.ignoreCardSubHeaders - If true, ignore headings inside .c-card that are not in .c-card__header
      */
@@ -414,34 +419,28 @@ class TableOfContents {
     }
 
     /**
-     * Find all matching headings in the specified containers
-     * @returns {HTMLElement[]} Array of heading elements
+     * Build the list of container selectors based on config.sidebars.
+     * Main content is always included; sidebars are opt-in.
+     * @returns {string[]}
      */
+    getContainerSelectors() {
+        const selectors = [TableOfContents.MAIN_CONTENT_SELECTOR];
+        const sidebars = Array.isArray(this.config.sidebars) ? this.config.sidebars : [];
+
+        for (const key of sidebars) {
+            const sel = TableOfContents.SIDEBAR_SELECTOR_MAP[key];
+            if (sel) {
+                selectors.push(sel);
+            }
+        }
+
+        return selectors;
+    }
+
     findHeadings() {
         const headings = [];
         const selector = this.config.headingLevels.join(', ');
-
-        // Build container selectors based on config.sidebars if provided
-        let containerSelectors = TableOfContents.CONTAINER_SELECTORS;
-        
-        if (this.config.sidebars && this.config.sidebars.length > 0) {
-            // Map sidebar identifiers to their corresponding selectors
-            const sidebarMap = {
-                'content-area-top': '#sidebar-content-area-top',
-                'content-area': '#sidebar-content-area',
-                'content-area-bottom': '#sidebar-content-area-bottom',
-                'article': 'article.c-article'
-            };
-            
-            containerSelectors = this.config.sidebars
-                .map(sidebar => sidebarMap[sidebar])
-                .filter(selector => selector !== undefined);
-
-            // Always include article by default
-            if (!containerSelectors.includes('article.c-article')) {
-                containerSelectors.push('article.c-article');
-            }
-        }
+        const containerSelectors = this.getContainerSelectors();
 
         for (const containerSelector of containerSelectors) {
             const container = document.querySelector(containerSelector);
