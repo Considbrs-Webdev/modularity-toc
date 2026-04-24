@@ -37,6 +37,19 @@ class TableOfContents extends \Modularity\Module
         $mobileCssSelector = get_field('mobile_css_selector_container', 'modularity-toc-settings');
         $insertionMethod = get_field('insertion_method', 'modularity-toc-settings');
 
+        /**
+         * Filter the mobile breakpoint used for the Table of Contents.
+         *
+         * Overriding this value changes the JavaScript media-query that drives
+         * the mobile vs. desktop behaviour. Note: the CSS stylesheet still uses
+         * 78em; add your own stylesheet rules if you need the visual breakpoint
+         * to match a custom value.
+         *
+         * @param string $mobileBreakpoint A valid CSS length value, e.g. '78em' or '1248px'.
+         */
+        $mobileBreakpoint = apply_filters('Modularity/Module/TableOfContents/MobileBreakpoint', '78em');
+        $mobileBreakpoint = is_string($mobileBreakpoint) && !empty($mobileBreakpoint) ? $mobileBreakpoint : '78em';
+
         $title = !empty($this->data['post_title']) && is_string($this->data['post_title'])
             ? $this->data['post_title']
             : __('Find on page', 'municipio');
@@ -81,6 +94,7 @@ class TableOfContents extends \Modularity\Module
             'automaticMobileInsertion' => $automaticMobileInsertion,
             'mobileCssSelector' => is_string($mobileCssSelector) ? $mobileCssSelector : '',
             'insertionMethod' => in_array($insertionMethod, ['prepend', 'append', 'before', 'after'], true) ? $insertionMethod : 'prepend',
+            'mobileBreakpoint' => $mobileBreakpoint,
         ];
 
         return $data;

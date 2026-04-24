@@ -144,7 +144,7 @@ if (function_exists('acf_add_local_field_group')) {
             'name' => 'mobile_style',
             'aria-label' => '',
             'type' => 'select',
-            'instructions' => __('Choose how visible table of contents modules should behave below 992px.', 'modularity-toc'),
+            'instructions' => __('Choose how visible table of contents modules should behave below 1248px.', 'modularity-toc'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(

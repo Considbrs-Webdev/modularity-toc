@@ -100,7 +100,7 @@ msgid "Mobile style"
 msgstr ""
 
 #: source/php/AcfFields/php/general-settings.php:147
-msgid "Choose how visible table of contents modules should behave below 992px."
+msgid "Choose how visible table of contents modules should behave below 1248px."
 msgstr ""
 
 #: source/php/AcfFields/php/general-settings.php:156

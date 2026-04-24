@@ -38,6 +38,21 @@ class App
                 array(),
                 null
             );
+
+            /** @see TableOfContents::data() for filter documentation */
+            $breakpoint = apply_filters('Modularity/Module/TableOfContents/MobileBreakpoint', '78em');
+            $breakpoint = is_string($breakpoint) && !empty($breakpoint) ? $breakpoint : '78em';
+
+            if ($breakpoint !== '78em') {
+                $overrideFile = CacheBust::name('css/modularity-toc-breakpoint-override.css');
+                $overridePath = MODULARITY_TOC_PATH . 'assets/dist/' . $overrideFile;
+
+                if ($overrideFile && file_exists($overridePath)) {
+                    $css = file_get_contents($overridePath);
+                    $css = str_replace('__TOC_BREAKPOINT__', esc_attr($breakpoint), $css);
+                    wp_add_inline_style('modularity-toc', $css);
+                }
+            }
         }
     }
 

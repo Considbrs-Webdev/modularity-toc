@@ -66,7 +66,8 @@
     "headingLevels": @json($headingLevels),
     "ignoreCardSubHeaders": @json($ignoreCardSubHeaders),
     "mobileStyle": @json($mobileStyle),
-    "sidebarSelectorMap": @json($sidebarSelectorMap)
+    "sidebarSelectorMap": @json($sidebarSelectorMap),
+    "mobileBreakpoint": @json($mobileBreakpoint)
 }
 </script>
 
@@ -140,7 +141,8 @@
     "headingLevels": @json($headingLevels),
     "ignoreCardSubHeaders": @json($ignoreCardSubHeaders),
     "mobileStyle": @json($mobileStyle),
-    "sidebarSelectorMap": @json($sidebarSelectorMap)
+    "sidebarSelectorMap": @json($sidebarSelectorMap),
+    "mobileBreakpoint": @json($mobileBreakpoint)
 }
 </script>
 @endif

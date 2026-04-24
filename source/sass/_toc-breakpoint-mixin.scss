@@ -1,0 +1,163 @@
+///
+/// toc-breakpoint-mixin
+///
+/// Two mixins that own ALL breakpoint-sensitive TOC rules.
+/// Keeping them here means the default stylesheet and the PHP-injected override
+/// CSS always stay in sync — change a rule once, both places update.
+///
+
+///
+/// Outputs all media-query-gated rules at $breakpoint.
+///
+/// @param {String | Length} $breakpoint - e.g. 78em, 60em, 1024px
+///
+@mixin toc-breakpoint-rules($breakpoint) {
+  @media (min-width: #{$breakpoint}) {
+    .modularity-mod-toc:has(.c-toc-root--hide-desktop) {
+      display: none;
+    }
+  }
+
+  // Mobile dropdown
+  @media (max-width: #{$breakpoint}) {
+    .modularity-mod-toc:has(.c-toc-root--hide-mobile) {
+      display: none;
+    }
+
+    .modularity-mod-toc {
+      .c-toc__toggle {
+        display: none;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        gap: calc(var(--base, 8px) * 2);
+        padding: calc(var(--base, 8px) * 2.5) calc(var(--base, 8px) * 3);
+        border: 1px solid var(--toc-mobile-border-color, #d6d6d6);
+        background: var(--toc-mobile-background, #fff);
+        color: var(--toc-mobile-color, inherit);
+        cursor: pointer;
+        font: inherit;
+        font-weight: 700;
+        text-align: left;
+
+        &[hidden] {
+          display: none !important;
+        }
+      }
+
+      .c-toc-root[data-mobile-style="dropdown"] {
+        .c-toc__heading {
+          display: none;
+        }
+
+        .c-toc__toggle {
+          display: flex;
+        }
+
+        .c-toc__panel {
+          border: 1px solid var(--toc-mobile-border-color, #d6d6d6);
+          border-top: 0;
+          padding: calc(var(--base, 8px) * 2.5) calc(var(--base, 8px) * 3);
+        }
+
+        &:not(.is-mobile-open) .c-toc__panel {
+          border: 0;
+          padding: 0;
+        }
+      }
+
+      .c-toc-root.is-mobile-open .c-toc__toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .c-toc__list {
+        margin-top: 0;
+
+        &.c-toc__list--track {
+          &::before,
+          &::after {
+            display: none;
+          }
+
+          > .c-toc__item {
+            padding-left: 0;
+          }
+        }
+
+        .c-toc__sublist .c-toc__item {
+          padding-left: calc(var(--base, 8px) * 3);
+        }
+      }
+    }
+  }
+}
+
+///
+/// Reverts all rules previously applied by toc-breakpoint-rules($breakpoint).
+/// Use this before re-applying at a new breakpoint to avoid double-applying rules.
+///
+/// @param {String | Length} $breakpoint - must match the value passed to toc-breakpoint-rules
+///
+@mixin toc-breakpoint-revert($breakpoint) {
+  @media (min-width: #{$breakpoint}) {
+    .modularity-mod-toc:has(.c-toc-root--hide-desktop) {
+      display: revert;
+    }
+  }
+
+  @media (max-width: #{$breakpoint}) {
+    .modularity-mod-toc:has(.c-toc-root--hide-mobile) {
+      display: revert;
+    }
+
+    .modularity-mod-toc {
+      .c-toc__toggle {
+        display: revert;
+      }
+
+      .c-toc-root[data-mobile-style="dropdown"] {
+        .c-toc__heading {
+          display: revert;
+        }
+
+        .c-toc__toggle {
+          display: revert;
+        }
+
+        .c-toc__panel {
+          border: revert;
+          border-top: revert;
+          padding: revert;
+        }
+
+        &:not(.is-mobile-open) .c-toc__panel {
+          border: revert;
+          padding: revert;
+        }
+      }
+
+      .c-toc-root.is-mobile-open .c-toc__toggle-icon {
+        transform: revert;
+      }
+
+      .c-toc__list {
+        margin-top: revert;
+
+        &.c-toc__list--track {
+          &::before,
+          &::after {
+            display: revert;
+          }
+
+          > .c-toc__item {
+            padding-left: revert;
+          }
+        }
+
+        .c-toc__sublist .c-toc__item {
+          padding-left: revert;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+@use "toc-breakpoint-mixin" as *;
+
+// Undo the default 78em rules, then re-apply at the custom breakpoint.
+// PHP reads this compiled file and replaces __TOC_BREAKPOINT__ with the real
+// value before injecting it via wp_add_inline_style().
+
+@include toc-breakpoint-revert(78em);
+@include toc-breakpoint-rules(__TOC_BREAKPOINT__);

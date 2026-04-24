@@ -4,7 +4,7 @@
  * Generates a linked table of contents based on headings found in specified containers.
  */
 class TableOfContents {
-    static MOBILE_MEDIA_QUERY = window.matchMedia('(max-width: 62em)');
+    static DEFAULT_MOBILE_BREAKPOINT = '78em';
 
     /**
      * Main content selector - always scanned for headings.
@@ -30,6 +30,7 @@ class TableOfContents {
      * @param {string[]} config.headingLevels - Heading levels to include (e.g., ['h2', 'h3'])
      * @param {boolean} config.ignoreCardSubHeaders - If true, ignore headings inside .c-card that are not in .c-card__header
      * @param {string} config.mobileStyle - Mobile style, dropdown or expanded
+     * @param {string} [config.mobileBreakpoint] - Breakpoint for mobile behaviour (e.g. '78em'). Overrides the default.
      */
     constructor(rootElement, tocElement, config) {
         this.rootElement = rootElement;
@@ -43,6 +44,8 @@ class TableOfContents {
         this.activeHeadingId = null;
         this.hasTrack = false;
         this.mobileStyle = config.mobileStyle === 'expanded' ? 'expanded' : 'dropdown';
+        const breakpoint = config.mobileBreakpoint || TableOfContents.DEFAULT_MOBILE_BREAKPOINT;
+        this.mobileMediaQuery = window.matchMedia(`(max-width: ${breakpoint})`);
         this.handleMediaChange = () => this.syncMobileState();
 
         if (!this.listElement) {
@@ -317,10 +320,10 @@ class TableOfContents {
 
         this.toggleButton.addEventListener('click', () => this.toggleMobileDropdown());
 
-        if (typeof TableOfContents.MOBILE_MEDIA_QUERY.addEventListener === 'function') {
-            TableOfContents.MOBILE_MEDIA_QUERY.addEventListener('change', this.handleMediaChange);
-        } else if (typeof TableOfContents.MOBILE_MEDIA_QUERY.addListener === 'function') {
-            TableOfContents.MOBILE_MEDIA_QUERY.addListener(this.handleMediaChange);
+        if (typeof this.mobileMediaQuery.addEventListener === 'function') {
+            this.mobileMediaQuery.addEventListener('change', this.handleMediaChange);
+        } else if (typeof this.mobileMediaQuery.addListener === 'function') {
+            this.mobileMediaQuery.addListener(this.handleMediaChange);
         }
 
         this.syncMobileState();
@@ -381,7 +384,7 @@ class TableOfContents {
      * @returns {boolean}
      */
     shouldUseMobileDropdown() {
-        return this.mobileStyle === 'dropdown' && TableOfContents.MOBILE_MEDIA_QUERY.matches;
+        return this.mobileStyle === 'dropdown' && this.mobileMediaQuery.matches;
     }
 
     /**

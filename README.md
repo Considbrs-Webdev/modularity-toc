@@ -41,8 +41,8 @@ Configure these settings for each individual TOC module instance:
 2. **Which heading levels to include**: Choose from H2, H3, and/or H4 headings (default: H2)
 3. **Place in card**: Toggle to display the TOC within a card component
 4. **Ignore card sub-headers**: Option to exclude headings inside cards (except card headers)
-5. **Hide on mobile**: Hide this TOC instance on mobile devices (below 62em / ~992px)
-6. **Hide on desktop**: Hide this TOC instance on desktop (62em and above)
+5. **Hide on mobile**: Hide this TOC instance on mobile devices (below 78em / ~1248px)
+6. **Hide on desktop**: Hide this TOC instance on desktop (78em and above)
 
 ### Global Settings
 
@@ -132,7 +132,7 @@ The module uses the following CSS custom properties that can be customized in yo
 
 ## Mobile Style
 
-Below the 62em breakpoint, the TOC switches to a mobile layout. The style can be configured globally:
+Below the 78em breakpoint, the TOC switches to a mobile layout. The style can be configured globally:
 
 - **Dropdown** (default): The TOC content is collapsed behind a toggle button. Clicking it expands/collapses the list in place.
 - **Expanded**: The TOC content is always visible on mobile, without a toggle.
