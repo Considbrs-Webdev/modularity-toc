@@ -392,21 +392,29 @@ class TableOfContents {
             this.setActiveHeading(this.headings[0].id);
         }
 
-        const headerHeight = this.getScrollOffset(this.headings[0] ?? null);
+        const initObserver = () => {
+            const headerHeight = this.getScrollOffset(this.headings[0] ?? null);
 
-        const options = {
-            root: null,
-            rootMargin: `-${headerHeight}px 0px -70% 0px`,
-            threshold: 0
+            const options = {
+                root: null,
+                rootMargin: `-${headerHeight}px 0px -70% 0px`,
+                threshold: 0
+            };
+
+            this.observer = new IntersectionObserver((entries) => {
+                this.handleIntersection(entries);
+            }, options);
+
+            this.headings.forEach((heading) => {
+                this.observer.observe(heading);
+            });
         };
 
-        this.observer = new IntersectionObserver((entries) => {
-            this.handleIntersection(entries);
-        }, options);
-
-        this.headings.forEach((heading) => {
-            this.observer.observe(heading);
-        });
+        if (document.readyState === 'complete') {
+            initObserver();
+        } else {
+            window.addEventListener('load', initObserver, { once: true });
+        }
     }
 
     /**
@@ -495,7 +503,11 @@ class TableOfContents {
 
         const header = document.querySelector('.site-header.c-header.c-header--flexible, .site-header.c-header, .c-header');
 
-        return header instanceof HTMLElement ? header.getBoundingClientRect().height : 0;
+        if (header instanceof HTMLElement && header.classList.contains('c-header--sticky')) {
+            return header.getBoundingClientRect().bottom + 25;
+        }
+
+        return 25;
     }
 }
 
