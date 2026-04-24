@@ -41,7 +41,7 @@ msgid "Show sliding track?"
 msgstr "Visa glidande styckeindikator?"
 
 #: source/php/AcfFields/php/general-settings.php:31
-msgid "Mobile behavior"
+msgid "Mobile style"
 msgstr "Mobilbeteende"
 
 #: source/php/AcfFields/php/general-settings.php:35

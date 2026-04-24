@@ -32,13 +32,13 @@ class TableOfContents extends \Modularity\Module
     {
         $fields = $this->getFields();
         $slidingTrack = get_field('sliding_track', 'modularity-toc-settings');
-        $mobileBehavior = get_field('mobile_behavior', 'modularity-toc-settings');
+        $mobileStyle = get_field('mobile_style', 'modularity-toc-settings');
         $title = !empty($this->data['post_title']) && is_string($this->data['post_title'])
             ? $this->data['post_title']
             : __('Find on page', 'municipio');
 
-        $resolvedMobileBehavior = in_array($mobileBehavior, ['dropdown', 'expanded'], true)
-            ? $mobileBehavior
+        $resolvedMobileStyle = in_array($mobileStyle, ['dropdown', 'expanded'], true)
+            ? $mobileStyle
             : 'dropdown';
 
         /**
@@ -60,7 +60,7 @@ class TableOfContents extends \Modularity\Module
             'ignoreCardSubHeaders' => !empty($fields['ignore_card_sub_headers']) ? $fields['ignore_card_sub_headers'] : false,
             'hideOnMobile' => !empty($fields['hide_on_mobile']),
             'hideOnDesktop' => !empty($fields['hide_on_desktop']),
-            'mobileBehavior' => $resolvedMobileBehavior,
+            'mobileStyle' => $resolvedMobileStyle,
             'slidingTrack' => is_bool($slidingTrack) ? $slidingTrack : true,
             'sidebarSelectorMap' => $sidebarSelectorMap,
         ];

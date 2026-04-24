@@ -29,7 +29,7 @@ class TableOfContents {
      * @param {string[]} config.sidebars - Sidebar identifiers to include headings from (besides main content)
      * @param {string[]} config.headingLevels - Heading levels to include (e.g., ['h2', 'h3'])
      * @param {boolean} config.ignoreCardSubHeaders - If true, ignore headings inside .c-card that are not in .c-card__header
-     * @param {string} config.mobileBehavior - Mobile behavior, dropdown or expanded
+     * @param {string} config.mobileStyle - Mobile style, dropdown or expanded
      */
     constructor(rootElement, tocElement, config) {
         this.rootElement = rootElement;
@@ -42,7 +42,7 @@ class TableOfContents {
         this.observer = null;
         this.activeHeadingId = null;
         this.hasTrack = false;
-        this.mobileBehavior = config.mobileBehavior === 'expanded' ? 'expanded' : 'dropdown';
+        this.mobileStyle = config.mobileStyle === 'expanded' ? 'expanded' : 'dropdown';
         this.handleMediaChange = () => this.syncMobileState();
 
         if (!this.listElement) {
@@ -68,7 +68,7 @@ class TableOfContents {
 
         this.ensureHeadingIds(this.headings);
         this.renderToc(this.headings);
-        this.setupMobileBehavior();
+        this.setupMobileStyle();
         this.setupObserver();
     }
 
@@ -308,9 +308,9 @@ class TableOfContents {
     }
 
     /**
-     * Setup mobile behavior controls
+     * Setup mobile style controls
      */
-    setupMobileBehavior() {
+    setupMobileStyle() {
         if (!this.toggleButton || !this.panelElement) {
             return;
         }
@@ -327,7 +327,7 @@ class TableOfContents {
     }
 
     /**
-     * Synchronize the mobile UI with the current viewport and selected behavior
+     * Synchronize the mobile UI with the current viewport and selected style
      */
     syncMobileState() {
         if (!this.toggleButton || !this.panelElement) {
@@ -377,11 +377,11 @@ class TableOfContents {
     }
 
     /**
-     * Check if the mobile dropdown behavior should be active
+     * Check if the mobile dropdown style should be active
      * @returns {boolean}
      */
     shouldUseMobileDropdown() {
-        return this.mobileBehavior === 'dropdown' && TableOfContents.MOBILE_MEDIA_QUERY.matches;
+        return this.mobileStyle === 'dropdown' && TableOfContents.MOBILE_MEDIA_QUERY.matches;
     }
 
     /**

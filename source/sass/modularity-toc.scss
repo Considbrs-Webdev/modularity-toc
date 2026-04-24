@@ -42,7 +42,9 @@
       height: var(--toc-track-height, 0);
       width: var(--toc-border-width, 4px);
       background-color: var(--toc-track-indicator, #666);
-      transition: top 300ms ease-out, height 300ms ease-out;
+      transition:
+        top 300ms ease-out,
+        height 300ms ease-out;
       display: none;
     }
 
@@ -122,7 +124,7 @@
       }
     }
 
-    .c-toc-root[data-mobile-behavior="dropdown"] {
+    .c-toc-root[data-mobile-style="dropdown"] {
       .c-toc__heading {
         display: none;
       }

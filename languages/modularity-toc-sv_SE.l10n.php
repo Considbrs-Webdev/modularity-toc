@@ -12,7 +12,7 @@ return array (
   array (
     'Table of Contents General Settings' => 'Allmänna inställningar för innehållsförteckning',
     'Show sliding track?' => 'Visa glidande styckeindikator?',
-    'Mobile behavior' => 'Mobilbeteende',
+    'Mobile style' => 'Mobilbeteende',
     'Choose how visible table of contents modules should behave below 992px.' => 'Välj hur synliga innehållsförteckningar ska bete sig under 992 px.',
     'Dropdown' => 'Rullgardinslista',
     'Expanded list' => 'Expanderad lista',

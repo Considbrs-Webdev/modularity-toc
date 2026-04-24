@@ -1,6 +1,6 @@
 <div
   class="c-toc-root {{ $hideOnMobile ? 'c-toc-root--hide-mobile' : '' }} {{ $hideOnDesktop ? 'c-toc-root--hide-desktop' : '' }}"
-  data-toc-root="{{ $ID }}" data-mobile-behavior="{{ $mobileBehavior }}">
+  data-toc-root="{{ $ID }}" data-mobile-style="{{ $mobileStyle }}">
   @if ($placeInCard)
     @card()
       <div class="c-card__header c-toc__heading">
@@ -65,7 +65,7 @@
     "sidebars": @json($sidebars),
     "headingLevels": @json($headingLevels),
     "ignoreCardSubHeaders": @json($ignoreCardSubHeaders),
-    "mobileBehavior": @json($mobileBehavior),
+    "mobileStyle": @json($mobileStyle),
     "sidebarSelectorMap": @json($sidebarSelectorMap)
 }
 </script>

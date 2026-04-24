@@ -18,7 +18,7 @@ This plugin provides a Table of Contents module for the Modularity plugin ecosys
 - **Smart Card Filtering**: Option to ignore headings inside cards except for card headers
 - **Smooth Navigation**: Clickable links that navigate smoothly to each section
 - **Active State Tracking**: Highlights the current section as users scroll through the page
-- **Configurable Mobile Behavior**: Choose between a collapsible dropdown or always-expanded layout on mobile
+- **Configurable Mobile Style**: Choose between a collapsible dropdown or always-expanded layout on mobile
 - **Per-instance Visibility Control**: Hide the TOC on mobile, desktop, or both per module instance
 - **Sliding Track Indicator**: Visual indicator that follows the active section
 - **Sticky Sidebar Support**: Option to make the entire sidebar column sticky when TOC is present
@@ -49,7 +49,7 @@ Configure these settings for each individual TOC module instance:
 Configure these settings once for all TOC modules (found in Settings > Table of Contents):
 
 1. **Show sliding track**: Display a visual sliding track indicator that follows the active section (default: enabled)
-2. **Mobile behavior**: How the TOC is displayed on mobile — `dropdown` (collapsible, default) or `expanded` (always visible)
+2. **Mobile style**: How the TOC is displayed on mobile — `dropdown` (collapsible, default) or `expanded` (always visible)
 3. **Sticky list**: Make the entire sidebar column sticky when it contains a TOC module
 
 ## CSS Variables
@@ -130,9 +130,9 @@ The module uses the following CSS custom properties that can be customized in yo
 4. Publish or update the page
 5. The table of contents will automatically populate based on the headings found on the page
 
-## Mobile Behavior
+## Mobile Style
 
-Below the 62em breakpoint, the TOC switches to a mobile layout. The behavior can be configured globally:
+Below the 62em breakpoint, the TOC switches to a mobile layout. The style can be configured globally:
 
 - **Dropdown** (default): The TOC content is collapsed behind a toggle button. Clicking it expands/collapses the list in place.
 - **Expanded**: The TOC content is always visible on mobile, without a toggle.
