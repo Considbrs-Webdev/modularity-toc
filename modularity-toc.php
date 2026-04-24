@@ -2,11 +2,11 @@
 
 /**
  * Plugin Name:       Modularity Table of Contents
- * Plugin URI:        https://github.com/alingsas-kommun/modularity-toc.git
+ * Plugin URI:        https://github.com/considbrs-webdev/modularity-toc.git
  * Description:       A Table of Contents module for Modularity.
  * Version: 1.0.0
  * Author:            Consid Borås AB
- * Author URI:        https://github.com/alingsas-kommun
+ * Author URI:        https://github.com/considbrs-webdev
  * License:           MIT
  * License URI:       https://opensource.org/licenses/MIT
  * Text Domain:       modularity-toc
@@ -24,7 +24,7 @@ define('MODULARITY_TOC_VIEW_PATH', MODULARITY_TOC_PATH . 'views/');
 define('MODULARITY_TOC_MODULE_VIEW_PATH', plugin_dir_path(__FILE__) . 'source/php/Module/views');
 define('MODULARITY_TOC_MODULE_PATH', MODULARITY_TOC_PATH . 'source/php/Module/');
     
-add_action('init', function() {
+add_action('acf/init', function() {
     load_plugin_textdomain('modularity-toc', false, plugin_basename(dirname(__FILE__)) . '/languages');
 }); 
 

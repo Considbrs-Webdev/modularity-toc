@@ -1,7 +1,9 @@
 <?php 
 
-if (function_exists('acf_add_local_field_group')) {
-    acf_add_local_field_group(array(
+
+if (function_exists('acf_add_local_field_group')) {
+
+    acf_add_local_field_group(array(
     'key' => 'group_69450b33eef44',
     'title' => __('Table of Contents General Settings', 'modularity-toc'),
     'fields' => array(
@@ -27,27 +29,6 @@
             'ui' => 1,
         ),
         1 => array(
-            'key' => 'field_69450b34e27e2',
-            'label' => __('Hide on mobile?', 'modularity-toc'),
-            'name' => 'hide_on_mobile',
-            'aria-label' => '',
-            'type' => 'true_false',
-            'instructions' => '',
-            'required' => 0,
-            'conditional_logic' => 0,
-            'wrapper' => array(
-                'width' => '',
-                'class' => '',
-                'id' => '',
-            ),
-            'message' => '',
-            'default_value' => 0,
-            'allow_in_bindings' => 0,
-            'ui_on_text' => '',
-            'ui_off_text' => '',
-            'ui' => 1,
-        ),
-        2 => array(
             'key' => 'field_6953e99550eef',
             'label' => __('Sticky list?', 'modularity-toc'),
             'name' => 'sticky_list',
@@ -67,6 +48,124 @@
             'ui_on_text' => '',
             'ui_off_text' => '',
             'ui' => 1,
+        ),
+        2 => array(
+            'key' => 'field_69eb405ec0696',
+            'label' => __('Automatic mobile insertion', 'modularity-toc'),
+            'name' => 'automatic_mobile_insertion',
+            'aria-label' => '',
+            'type' => 'true_false',
+            'instructions' => __('Will try to inject the mobile table of contents in specified container', 'modularity-toc'),
+            'required' => 0,
+            'conditional_logic' => 0,
+            'wrapper' => array(
+                'width' => '',
+                'class' => '',
+                'id' => '',
+            ),
+            'message' => '',
+            'default_value' => 0,
+            'allow_in_bindings' => 0,
+            'ui_on_text' => '',
+            'ui_off_text' => '',
+            'ui' => 1,
+        ),
+        3 => array(
+            'key' => 'field_69eb407bc0697',
+            'label' => __('CSS Selector', 'modularity-toc'),
+            'name' => 'mobile_css_selector_container',
+            'aria-label' => '',
+            'type' => 'text',
+            'instructions' => __('Use CSS selectors like article, .c-article or #article', 'modularity-toc'),
+            'required' => 1,
+            'conditional_logic' => array(
+                0 => array(
+                    0 => array(
+                        'field' => 'field_69eb405ec0696',
+                        'operator' => '==',
+                        'value' => '1',
+                    ),
+                ),
+            ),
+            'wrapper' => array(
+                'width' => '',
+                'class' => '',
+                'id' => '',
+            ),
+            'default_value' => '',
+            'maxlength' => '',
+            'allow_in_bindings' => 0,
+            'placeholder' => '',
+            'prepend' => '',
+            'append' => '',
+        ),
+        4 => array(
+            'key' => 'field_69eb4178ab43d',
+            'label' => __('Insertion method', 'modularity-toc'),
+            'name' => 'insertion_method',
+            'aria-label' => '',
+            'type' => 'select',
+            'instructions' => __('Choose whether to append or prepend to a container, or to add before or after a certain element', 'modularity-toc'),
+            'required' => 1,
+            'conditional_logic' => array(
+                0 => array(
+                    0 => array(
+                        'field' => 'field_69eb405ec0696',
+                        'operator' => '==',
+                        'value' => '1',
+                    ),
+                ),
+            ),
+            'wrapper' => array(
+                'width' => '',
+                'class' => '',
+                'id' => '',
+            ),
+            'choices' => array(
+                'prepend' => __('Prepend to container', 'modularity-toc'),
+                'append' => __('Append to container', 'modularity-toc'),
+                'before' => __('Before element', 'modularity-toc'),
+                'after' => __('After element', 'modularity-toc'),
+            ),
+            'default_value' => 'prepend',
+            'return_format' => 'value',
+            'multiple' => 0,
+            'allow_null' => 0,
+            'allow_in_bindings' => 0,
+            'ui' => 1,
+            'ajax' => 0,
+            'placeholder' => '',
+            'create_options' => 0,
+            'save_options' => 0,
+        ),
+        5 => array(
+            'key' => 'field_67d6a7b1b3c01',
+            'label' => __('Mobile style', 'modularity-toc'),
+            'name' => 'mobile_style',
+            'aria-label' => '',
+            'type' => 'select',
+            'instructions' => __('Choose how visible table of contents modules should behave below 1248px.', 'modularity-toc'),
+            'required' => 0,
+            'conditional_logic' => 0,
+            'wrapper' => array(
+                'width' => '',
+                'class' => '',
+                'id' => '',
+            ),
+            'choices' => array(
+                'dropdown' => __('Dropdown', 'modularity-toc'),
+                'expanded' => __('Expanded list', 'modularity-toc'),
+            ),
+            'default_value' => __('dropdown', 'modularity-toc'),
+            'return_format' => 'value',
+            'multiple' => 0,
+            'allow_null' => 0,
+            'allow_in_bindings' => 0,
+            'ui' => 1,
+            'ajax' => 0,
+            'placeholder' => '',
+            'create_options' => 0,
+            'save_options' => 0,
         ),
     ),
     'location' => array(
@@ -88,11 +187,6 @@
     'description' => '',
     'show_in_rest' => 0,
     'display_title' => '',
-    'acfe_autosync' => array(
-        0 => 'json',
-    ),
-    'acfe_form' => 0,
-    'acfe_meta' => '',
-    'acfe_note' => '',
 ));
-}
+
+}
