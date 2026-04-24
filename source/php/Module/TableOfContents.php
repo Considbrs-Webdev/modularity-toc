@@ -41,6 +41,16 @@ class TableOfContents extends \Modularity\Module
             ? $mobileBehavior
             : 'dropdown';
 
+        /**
+         * Filter the sidebar selector map passed to the JS config.
+         *
+         * Add custom entries as 'key' => '#css-selector' pairs, where
+         * the key matches a choice registered via `Modularity/Module/TableOfContents/SidebarChoices`.
+         *
+         * @param array $sidebarSelectorMap Associative array of sidebar key => CSS selector.
+         */
+        $sidebarSelectorMap = apply_filters('Modularity/Module/TableOfContents/SidebarSelectorMap', []);
+
         $data = [
             'ID' => uniqid('toc-'),
             'title' => $title,
@@ -52,6 +62,7 @@ class TableOfContents extends \Modularity\Module
             'hideOnDesktop' => !empty($fields['hide_on_desktop']),
             'mobileBehavior' => $resolvedMobileBehavior,
             'slidingTrack' => is_bool($slidingTrack) ? $slidingTrack : true,
+            'sidebarSelectorMap' => $sidebarSelectorMap,
         ];
 
         return $data;

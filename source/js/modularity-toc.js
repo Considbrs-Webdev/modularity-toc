@@ -101,9 +101,13 @@ class TableOfContents {
     getContainerSelectors() {
         const selectors = [TableOfContents.MAIN_CONTENT_SELECTOR];
         const sidebars = Array.isArray(this.config.sidebars) ? this.config.sidebars : [];
+        const sidebarSelectorMap = {
+            ...TableOfContents.SIDEBAR_SELECTOR_MAP,
+            ...(this.config.sidebarSelectorMap || {}),
+        };
 
         for (const key of sidebars) {
-            const sel = TableOfContents.SIDEBAR_SELECTOR_MAP[key];
+            const sel = sidebarSelectorMap[key];
             if (sel) {
                 selectors.push(sel);
             }

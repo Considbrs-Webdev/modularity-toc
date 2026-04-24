@@ -87,11 +87,20 @@ class AcfFieldLoader
     private function getSidebarChoices(): array
     {
         $choices = [
-            'content-area-top' => __('Content area (above article)', 'municipio'),
-            'content-area' => __('Content area (below article)', 'municipio'),
-            'content-area-bottom' => __('Main container bottom', 'municipio'),
+            SidebarKey::CONTENT_AREA_TOP    => __('Content area (above article)', 'municipio'),
+            SidebarKey::CONTENT_AREA        => __('Content area (below article)', 'municipio'),
+            SidebarKey::CONTENT_AREA_BOTTOM => __('Main container bottom', 'municipio'),
         ];
 
-        return $choices;
+        /**
+         * Filter the available sidebar choices for the TOC field.
+         *
+         * Add custom entries as 'key' => 'Label' pairs. The key must
+         * also be registered in the `Modularity/Module/TableOfContents/SidebarSelectorMap`
+         * filter so the JS knows which DOM selector to use.
+         *
+         * @param array $choices Associative array of sidebar key => label.
+         */
+        return apply_filters('Modularity/Module/TableOfContents/SidebarChoices', $choices);
     }
 }
