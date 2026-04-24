@@ -17,6 +17,23 @@ class AcfFieldLoader
     public function __construct()
     {
         add_filter('acf/load_field', [$this, 'loadFieldChoices']);
+        add_filter('acf/prepare_field/key=field_67d6a94cb3c02', [$this, 'hideIfAutomaticMobileInsertion']);
+        add_filter('acf/prepare_field/key=field_67d6c68ab3c03', [$this, 'hideIfAutomaticMobileInsertion']);
+    }
+
+    /**
+     * Hide hide_on_mobile / hide_on_desktop fields when automatic mobile insertion is enabled
+     *
+     * @param array|false $field
+     * @return array|false
+     */
+    public function hideIfAutomaticMobileInsertion($field)
+    {
+        if (get_field('automatic_mobile_insertion', 'modularity-toc-settings')) {
+            return false;
+        }
+
+        return $field;
     }
 
     /**

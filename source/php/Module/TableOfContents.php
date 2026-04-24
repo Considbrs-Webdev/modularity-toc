@@ -33,6 +33,10 @@ class TableOfContents extends \Modularity\Module
         $fields = $this->getFields();
         $slidingTrack = get_field('sliding_track', 'modularity-toc-settings');
         $mobileStyle = get_field('mobile_style', 'modularity-toc-settings');
+        $automaticMobileInsertion = (bool) get_field('automatic_mobile_insertion', 'modularity-toc-settings');
+        $mobileCssSelector = get_field('mobile_css_selector_container', 'modularity-toc-settings');
+        $insertionMethod = get_field('insertion_method', 'modularity-toc-settings');
+
         $title = !empty($this->data['post_title']) && is_string($this->data['post_title'])
             ? $this->data['post_title']
             : __('Find on page', 'municipio');
@@ -51,18 +55,32 @@ class TableOfContents extends \Modularity\Module
          */
         $sidebarSelectorMap = apply_filters('Modularity/Module/TableOfContents/SidebarSelectorMap', []);
 
+        // When automatic mobile insertion is enabled, the manually placed module is desktop-only.
+        // The mobile version will be injected by JS into the specified container.
+        if ($automaticMobileInsertion) {
+            $hideOnMobile = true;
+            $hideOnDesktop = false;
+        } else {
+            $hideOnMobile = !empty($fields['hide_on_mobile']);
+            $hideOnDesktop = !empty($fields['hide_on_desktop']);
+        }
+
         $data = [
             'ID' => uniqid('toc-'),
+            'mobileID' => uniqid('toc-mobile-'),
             'title' => $title,
             'sidebars' => !empty($fields['sidebars']) ? $fields['sidebars'] : [],
             'headingLevels' => !empty($fields['heading_levels']) ? $fields['heading_levels'] : ['h2'],
             'placeInCard' => !empty($fields['place_in_card']) ? $fields['place_in_card'] : false,
             'ignoreCardSubHeaders' => !empty($fields['ignore_card_sub_headers']) ? $fields['ignore_card_sub_headers'] : false,
-            'hideOnMobile' => !empty($fields['hide_on_mobile']),
-            'hideOnDesktop' => !empty($fields['hide_on_desktop']),
+            'hideOnMobile' => $hideOnMobile,
+            'hideOnDesktop' => $hideOnDesktop,
             'mobileStyle' => $resolvedMobileStyle,
             'slidingTrack' => is_bool($slidingTrack) ? $slidingTrack : true,
             'sidebarSelectorMap' => $sidebarSelectorMap,
+            'automaticMobileInsertion' => $automaticMobileInsertion,
+            'mobileCssSelector' => is_string($mobileCssSelector) ? $mobileCssSelector : '',
+            'insertionMethod' => in_array($insertionMethod, ['prepend', 'append'], true) ? $insertionMethod : 'prepend',
         ];
 
         return $data;

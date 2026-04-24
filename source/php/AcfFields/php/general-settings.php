@@ -98,6 +98,43 @@
             'append' => '',
         ),
         4 => array(
+            'key' => 'field_69eb4178ab43d',
+            'label' => __('Insertion method', 'modularity-toc'),
+            'name' => 'insertion_method',
+            'aria-label' => '',
+            'type' => 'select',
+            'instructions' => '',
+            'required' => 1,
+            'conditional_logic' => array(
+                0 => array(
+                    0 => array(
+                        'field' => 'field_69eb405ec0696',
+                        'operator' => '==',
+                        'value' => '1',
+                    ),
+                ),
+            ),
+            'wrapper' => array(
+                'width' => '',
+                'class' => '',
+                'id' => '',
+            ),
+            'choices' => array(
+                'prepend' => __('Prepend', 'modularity-toc'),
+                'append' => __('Append', 'modularity-toc'),
+            ),
+            'default_value' => __('prepand', 'modularity-toc'),
+            'return_format' => 'value',
+            'multiple' => 0,
+            'allow_null' => 0,
+            'allow_in_bindings' => 0,
+            'ui' => 1,
+            'ajax' => 0,
+            'placeholder' => '',
+            'create_options' => 0,
+            'save_options' => 0,
+        ),
+        5 => array(
             'key' => 'field_67d6a7b1b3c01',
             'label' => __('Mobile style', 'modularity-toc'),
             'name' => 'mobile_style',

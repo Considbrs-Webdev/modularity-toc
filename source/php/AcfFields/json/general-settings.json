@@ -95,6 +95,43 @@
             "append": ""
         },
         {
+            "key": "field_69eb4178ab43d",
+            "label": "Insertion method",
+            "name": "insertion_method",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_69eb405ec0696",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "prepend": "Prepend",
+                "append": "Append"
+            },
+            "default_value": "prepand",
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "allow_in_bindings": 0,
+            "ui": 1,
+            "ajax": 0,
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
             "key": "field_67d6a7b1b3c01",
             "label": "Mobile style",
             "name": "mobile_style",

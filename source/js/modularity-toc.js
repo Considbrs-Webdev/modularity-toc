@@ -539,8 +539,47 @@ function initTableOfContents() {
     });
 }
 
+/**
+ * Move automatically inserted mobile TOC elements into their target containers
+ */
+function initMobileInsertion() {
+    const mobileRoots = document.querySelectorAll('[data-toc-root][data-toc-insertion-selector]');
+
+    mobileRoots.forEach((rootElement) => {
+        const selector = rootElement.dataset.tocInsertionSelector;
+        const method = rootElement.dataset.tocInsertionMethod || 'prepend';
+
+        if (!selector) {
+            return;
+        }
+
+        const container = document.querySelector(selector);
+
+        if (!container) {
+            return;
+        }
+
+        const mobileId = rootElement.dataset.tocRoot;
+        const wrapper = document.createElement('div');
+        wrapper.id = `mod-toc-mobile-${mobileId}`;
+        wrapper.className = 'modularity-mod-toc';
+        wrapper.setAttribute('lang', 'i-');
+        wrapper.appendChild(rootElement);
+
+        if (method === 'prepend') {
+            container.prepend(wrapper);
+        } else {
+            container.append(wrapper);
+        }
+    });
+}
+
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initTableOfContents);
+    document.addEventListener('DOMContentLoaded', () => {
+        initTableOfContents();
+        initMobileInsertion();
+    });
 } else {
     initTableOfContents();
+    initMobileInsertion();
 }
