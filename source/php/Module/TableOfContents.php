@@ -80,7 +80,7 @@ class TableOfContents extends \Modularity\Module
             'sidebarSelectorMap' => $sidebarSelectorMap,
             'automaticMobileInsertion' => $automaticMobileInsertion,
             'mobileCssSelector' => is_string($mobileCssSelector) ? $mobileCssSelector : '',
-            'insertionMethod' => in_array($insertionMethod, ['prepend', 'append'], true) ? $insertionMethod : 'prepend',
+            'insertionMethod' => in_array($insertionMethod, ['prepend', 'append', 'before', 'after'], true) ? $insertionMethod : 'prepend',
         ];
 
         return $data;

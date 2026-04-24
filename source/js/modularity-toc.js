@@ -568,18 +568,28 @@ function initMobileInsertion() {
 
         if (method === 'prepend') {
             container.prepend(wrapper);
-        } else {
+        } else if (method === 'append') {
             container.append(wrapper);
+        } else if (method === 'before') {
+            const parent = container.parentNode;
+            if (parent) {
+                parent.insertBefore(wrapper, container);
+            }
+        } else if (method === 'after') {
+            const parent = container.parentNode;
+            if (parent) {
+                parent.insertBefore(wrapper, container.nextSibling);
+            }
         }
     });
 }
 
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-        initTableOfContents();
         initMobileInsertion();
+        initTableOfContents();
     });
 } else {
-    initTableOfContents();
     initMobileInsertion();
+    initTableOfContents();
 }

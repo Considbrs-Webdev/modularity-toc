@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-04-24T10:30:16+00:00\n"
+"POT-Creation-Date: 2026-04-24T12:00:37+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: modularity-toc\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #. Plugin URI of the plugin
 #: modularity-toc.php
-msgid "https://github.com/alingsas-kommun/modularity-toc.git"
+msgid "https://github.com/considbrs-webdev/modularity-toc.git"
 msgstr ""
 
 #. Description of the plugin
@@ -36,7 +36,7 @@ msgstr ""
 
 #. Author URI of the plugin
 #: modularity-toc.php
-msgid "https://github.com/alingsas-kommun"
+msgid "https://github.com/considbrs-webdev"
 msgstr ""
 
 #: source/php/AcfFields/php/general-settings.php:8
@@ -75,31 +75,43 @@ msgstr ""
 msgid "Insertion method"
 msgstr ""
 
+#: source/php/AcfFields/php/general-settings.php:108
+msgid "Choose whether to append or prepend to a container, or to add before or after a certain element"
+msgstr ""
+
 #: source/php/AcfFields/php/general-settings.php:125
-msgid "Prepend"
+msgid "Prepend to container"
 msgstr ""
 
 #: source/php/AcfFields/php/general-settings.php:126
-msgid "Append"
+msgid "Append to container"
 msgstr ""
 
-#: source/php/AcfFields/php/general-settings.php:141
+#: source/php/AcfFields/php/general-settings.php:127
+msgid "Before element"
+msgstr ""
+
+#: source/php/AcfFields/php/general-settings.php:128
+msgid "After element"
+msgstr ""
+
+#: source/php/AcfFields/php/general-settings.php:143
 msgid "Mobile style"
 msgstr ""
 
-#: source/php/AcfFields/php/general-settings.php:145
+#: source/php/AcfFields/php/general-settings.php:147
 msgid "Choose how visible table of contents modules should behave below 992px."
 msgstr ""
 
-#: source/php/AcfFields/php/general-settings.php:154
+#: source/php/AcfFields/php/general-settings.php:156
 msgid "Dropdown"
 msgstr ""
 
-#: source/php/AcfFields/php/general-settings.php:155
+#: source/php/AcfFields/php/general-settings.php:157
 msgid "Expanded list"
 msgstr ""
 
-#: source/php/AcfFields/php/general-settings.php:157
+#: source/php/AcfFields/php/general-settings.php:159
 msgid "dropdown"
 msgstr ""
 

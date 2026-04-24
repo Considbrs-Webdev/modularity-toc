@@ -201,4 +201,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Credits
 
 - **Author**: Consid Borås AB
-- **Repository**: [alingsas-kommun/modularity-toc](https://github.com/alingsas-kommun/modularity-toc)
+- **Repository**: [considbrs-webdev/modularity-toc](https://github.com/considbrs-webdev/modularity-toc)

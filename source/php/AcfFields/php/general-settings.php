@@ -105,7 +105,7 @@ if (function_exists('acf_add_local_field_group')) {
             'name' => 'insertion_method',
             'aria-label' => '',
             'type' => 'select',
-            'instructions' => '',
+            'instructions' => __('Choose whether to append or prepend to a container, or to add before or after a certain element', 'modularity-toc'),
             'required' => 1,
             'conditional_logic' => array(
                 0 => array(
@@ -122,8 +122,10 @@ if (function_exists('acf_add_local_field_group')) {
                 'id' => '',
             ),
             'choices' => array(
-                'prepend' => __('Prepend', 'modularity-toc'),
-                'append' => __('Append', 'modularity-toc'),
+                'prepend' => __('Prepend to container', 'modularity-toc'),
+                'append' => __('Append to container', 'modularity-toc'),
+                'before' => __('Before element', 'modularity-toc'),
+                'after' => __('After element', 'modularity-toc'),
             ),
             'default_value' => 'prepend',
             'return_format' => 'value',

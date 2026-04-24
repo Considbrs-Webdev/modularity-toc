@@ -2,11 +2,11 @@
 
 /**
  * Plugin Name:       Modularity Table of Contents
- * Plugin URI:        https://github.com/alingsas-kommun/modularity-toc.git
+ * Plugin URI:        https://github.com/considbrs-webdev/modularity-toc.git
  * Description:       A Table of Contents module for Modularity.
  * Version: 1.0.0
  * Author:            Consid Borås AB
- * Author URI:        https://github.com/alingsas-kommun
+ * Author URI:        https://github.com/considbrs-webdev
  * License:           MIT
  * License URI:       https://opensource.org/licenses/MIT
  * Text Domain:       modularity-toc

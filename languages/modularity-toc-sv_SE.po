@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Modularity Table of Contents\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/modularity-toc\n"
-"POT-Creation-Date: 2026-04-24T10:30:16+00:00\n"
-"PO-Revision-Date: 2026-03-16 12:35+0100\n"
+"POT-Creation-Date: 2026-04-24T12:00:37+00:00\n"
+"PO-Revision-Date: 2026-04-24 14:01+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: sv\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: modularity-toc.php\n"
@@ -28,7 +28,7 @@ msgstr "Modularity – innehållsförteckning"
 
 #. Plugin URI of the plugin
 #: modularity-toc.php
-msgid "https://github.com/alingsas-kommun/modularity-toc.git"
+msgid "https://github.com/considbrs-webdev/modularity-toc.git"
 msgstr ""
 
 #. Description of the plugin
@@ -43,7 +43,7 @@ msgstr ""
 
 #. Author URI of the plugin
 #: modularity-toc.php
-msgid "https://github.com/alingsas-kommun"
+msgid "https://github.com/considbrs-webdev"
 msgstr ""
 
 #: source/php/AcfFields/php/general-settings.php:8
@@ -86,31 +86,47 @@ msgstr "Använd CSS-selektorer som article, .c-article eller #article"
 msgid "Insertion method"
 msgstr "Infogningsmetod"
 
+#: source/php/AcfFields/php/general-settings.php:108
+msgid ""
+"Choose whether to append or prepend to a container, or to add before or "
+"after a certain element"
+msgstr ""
+"Välj om du vill lägga till i början eller slutet av en behållare, eller "
+"lägga till före eller efter ett visst element"
+
 #: source/php/AcfFields/php/general-settings.php:125
-msgid "Prepend"
-msgstr "Lägg till före"
+msgid "Prepend to container"
+msgstr "Lägg till först i behållare"
 
 #: source/php/AcfFields/php/general-settings.php:126
-msgid "Append"
-msgstr "Lägg till efter"
+msgid "Append to container"
+msgstr "Lägg till sist i behållare"
 
-#: source/php/AcfFields/php/general-settings.php:141
+#: source/php/AcfFields/php/general-settings.php:127
+msgid "Before element"
+msgstr "Före element"
+
+#: source/php/AcfFields/php/general-settings.php:128
+msgid "After element"
+msgstr "Efter element"
+
+#: source/php/AcfFields/php/general-settings.php:143
 msgid "Mobile style"
 msgstr "Mobilbeteende"
 
-#: source/php/AcfFields/php/general-settings.php:145
+#: source/php/AcfFields/php/general-settings.php:147
 msgid "Choose how visible table of contents modules should behave below 992px."
 msgstr "Välj hur synliga innehållsförteckningar ska bete sig under 992 px."
 
-#: source/php/AcfFields/php/general-settings.php:154
+#: source/php/AcfFields/php/general-settings.php:156
 msgid "Dropdown"
 msgstr "Rullgardinslista"
 
-#: source/php/AcfFields/php/general-settings.php:155
+#: source/php/AcfFields/php/general-settings.php:157
 msgid "Expanded list"
 msgstr "Expanderad lista"
 
-#: source/php/AcfFields/php/general-settings.php:157
+#: source/php/AcfFields/php/general-settings.php:159
 msgid "dropdown"
 msgstr "Rullgardinslista"
 
@@ -177,6 +193,15 @@ msgstr "Innehållsförteckning"
 #: source/php/Module/TableOfContents.php:16
 msgid "Display table of contents"
 msgstr "Visa innehållsförteckning"
+
+#~ msgid "Prepend"
+#~ msgstr "Lägg till före"
+
+#~ msgid "Append"
+#~ msgstr "Lägg till efter"
+
+#~ msgid "After"
+#~ msgstr "Efter"
 
 #~ msgid "Find on page"
 #~ msgstr "Hitta på sidan"
