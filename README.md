@@ -18,9 +18,12 @@ This plugin provides a Table of Contents module for the Modularity plugin ecosys
 - **Smart Card Filtering**: Option to ignore headings inside cards except for card headers
 - **Smooth Navigation**: Clickable links that navigate smoothly to each section
 - **Active State Tracking**: Highlights the current section as users scroll through the page
-- **Mobile Drawer Interface**: On mobile devices (below 78em/1248px), TOC appears in a slide-out drawer with a fixed toggle button
+- **Configurable Mobile Behavior**: Choose between a collapsible dropdown or always-expanded layout on mobile
+- **Per-instance Visibility Control**: Hide the TOC on mobile, desktop, or both per module instance
 - **Sliding Track Indicator**: Visual indicator that follows the active section
 - **Sticky Sidebar Support**: Option to make the entire sidebar column sticky when TOC is present
+- **Block Compatible**: Works as a native Gutenberg block with editable title
+- **Extensible via PHP Filters**: Add custom sidebar containers and choices without modifying the plugin
 - **Responsive Design**: Works seamlessly across all device sizes with dedicated mobile and desktop UX
 
 ## Configuration Options
@@ -29,65 +32,78 @@ This plugin provides a Table of Contents module for the Modularity plugin ecosys
 
 Configure these settings for each individual TOC module instance:
 
-1. **Include headings from following sidebars**: 
+1. **Include headings from following sidebars**:
+
 - **Content area (above article)**
 - **Content area (below article)**
 - **Main container bottom**
+
 2. **Which heading levels to include**: Choose from H2, H3, and/or H4 headings (default: H2)
 3. **Place in card**: Toggle to display the TOC within a card component
 4. **Ignore card sub-headers**: Option to exclude headings inside cards (except card headers)
+5. **Hide on mobile**: Hide this TOC instance on mobile devices (below 62em / ~992px)
+6. **Hide on desktop**: Hide this TOC instance on desktop (62em and above)
 
 ### Global Settings
 
 Configure these settings once for all TOC modules (found in Settings > Table of Contents):
 
 1. **Show sliding track**: Display a visual sliding track indicator that follows the active section (default: enabled)
-2. **Hide on mobile**: Hide the TOC module completely on mobile devices below 78em
+2. **Mobile behavior**: How the TOC is displayed on mobile — `dropdown` (collapsible, default) or `expanded` (always visible)
 3. **Sticky list**: Make the entire sidebar column sticky when it contains a TOC module
 
 ## CSS Variables
 
 The module uses the following CSS custom properties that can be customized in your theme:
 
-### Mobile Drawer
-- `--modularity-toc-mobile-handle-bg`: Background color of the mobile toggle button (default: `var(--c-button-primary-color, #333)`)
-- `--modularity-toc-mobile-handle-color`: Text/icon color of the mobile toggle button (default: `var(--c-button-primary-color-contrasting, #fff)`)
-- `--modularity-toc-mobile-handle-bg-hover`: Background color on hover (default: `var(--c-button-primary-color-hover, #222)`)
-
 ### Sliding Track
-- `--toc-border-width`: Width of the sliding track border (default: 4px)
-- `--toc-track-color`: Color of the active sliding indicator (default: #666)
-- `--toc-border-color`: Color of the background track (default: #ccc)
-- `--toc-track-top`: Calculated top position of the sliding indicator
-- `--toc-track-height`: Calculated height of the sliding indicator
 
-### Sticky Positioning
-- `--sticky-sidebar-top`: Top offset for sticky sidebar (default: `calc(50px + var(--wp-admin--admin-bar--height, 0px))`)
-- `--header-height`: Height of the sticky header (used when body has `sticky-header` class)
+- `--toc-border-width`: Width of the track border line (default: 4px)
+- `--toc-track-width`: Width of the background track line (default: 4px)
+- `--toc-track-indicator`: Color of the active sliding indicator (default: #666)
+- `--toc-track-color`: Color of the background track (default: #ccc)
+- `--toc-track-top`: Calculated top position of the sliding indicator (set by JS)
+- `--toc-track-height`: Calculated height of the sliding indicator (set by JS)
+
+### Links
+
+- `--toc-link-color`: Color of TOC links (default: `var(--color-link, #000)`)
+- `--toc-link-color-hover`: Color of TOC links on hover (default: `var(--color-link-hover, #333)`)
+- `--toc-link-font-size`: Font size of TOC links (default: `inherit`)
+- `--toc-link-font-weight`: Font weight of TOC links (default: `normal`)
+- `--toc-link-decoration`: Text decoration of TOC links (default: `none`)
+
+### Mobile Dropdown
+
+- `--toc-mobile-border-color`: Border color of the mobile TOC container (default: #d6d6d6)
+- `--toc-mobile-background`: Background color of the mobile TOC container (default: #fff)
+- `--toc-mobile-color`: Text color inside the mobile TOC container (default: `inherit`)
 
 ### General
+
 - `--base`: Base spacing unit (default: 8px)
 
 ## Example CSS Customization
 
 ```css
-/* Customize mobile drawer button colors */
+/* Customize TOC link appearance */
 .modularity-mod-toc {
-  --modularity-toc-mobile-handle-bg: #0073aa;
-  --modularity-toc-mobile-handle-color: #ffffff;
-  --modularity-toc-mobile-handle-bg-hover: #005a87;
+  --toc-link-color: #0073aa;
+  --toc-link-color-hover: #005a87;
+  --toc-link-font-weight: 500;
 }
 
 /* Customize sliding track appearance */
 .modularity-mod-toc {
   --toc-border-width: 3px;
-  --toc-track-color: #0073aa;
-  --toc-border-color: #e0e0e0;
+  --toc-track-indicator: #0073aa;
+  --toc-track-color: #e0e0e0;
 }
 
-/* Adjust sticky sidebar offset */
-:root {
-  --sticky-sidebar-top: 100px;
+/* Customize mobile TOC container */
+.modularity-mod-toc {
+  --toc-mobile-background: #f5f5f5;
+  --toc-mobile-border-color: #ccc;
 }
 ```
 
@@ -116,22 +132,40 @@ The module uses the following CSS custom properties that can be customized in yo
 
 ## Mobile Behavior
 
-Below the 78em (1248px) breakpoint, the TOC transforms into a mobile-optimized experience:
+Below the 62em breakpoint, the TOC switches to a mobile layout. The behavior can be configured globally:
 
-- A fixed toggle button appears on the right side of the screen
-- Clicking opens a slide-out drawer from the right
-- Drawer includes a close button and overlay for dismissal
-- Focus is trapped within the drawer for accessibility
-- Escape key closes the drawer
-- Respects sticky header positioning when present
+- **Dropdown** (default): The TOC content is collapsed behind a toggle button. Clicking it expands/collapses the list in place.
+- **Expanded**: The TOC content is always visible on mobile, without a toggle.
 
-## Accessibility Features
+Per-instance, you can also hide the TOC entirely on mobile or desktop using the **Hide on mobile** / **Hide on desktop** instance settings.
 
-- **Keyboard Navigation**: Full keyboard support with Tab/Shift+Tab navigation
-- **Focus Trap**: Focus is trapped within the mobile drawer when open
-- **ARIA Attributes**: Proper ARIA labels, roles, and states for screen readers
-- **Escape Key**: Close drawer with Escape key
-- **Focus Management**: Returns focus to trigger button when drawer closes
+## PHP Filters
+
+The plugin exposes two filters for extending sidebar support without modifying the plugin:
+
+### `Modularity/Module/TableOfContents/SidebarChoices`
+
+Add custom choices to the "Include headings from following sidebars" ACF field:
+
+```php
+add_filter('Modularity/Module/TableOfContents/SidebarChoices', function (array $choices): array {
+    $choices['my-custom-sidebar'] = __('My Custom Sidebar', 'my-theme');
+    return $choices;
+});
+```
+
+### `Modularity/Module/TableOfContents/SidebarSelectorMap`
+
+Map custom sidebar keys to their CSS selectors so the JS knows where to scan for headings:
+
+```php
+add_filter('Modularity/Module/TableOfContents/SidebarSelectorMap', function (array $map): array {
+    $map['my-custom-sidebar'] = '#my-custom-sidebar-element';
+    return $map;
+});
+```
+
+Both filters must be used together for a custom sidebar to appear in the field and be scanned for headings.
 
 ## Development
 
