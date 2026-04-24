@@ -1,7 +1,9 @@
 <?php 
 
-if (function_exists('acf_add_local_field_group')) {
-    acf_add_local_field_group(array(
+
+if (function_exists('acf_add_local_field_group')) {
+
+    acf_add_local_field_group(array(
     'key' => 'group_69450b33eef44',
     'title' => __('Table of Contents General Settings', 'modularity-toc'),
     'fields' => array(
@@ -123,7 +125,7 @@
                 'prepend' => __('Prepend', 'modularity-toc'),
                 'append' => __('Append', 'modularity-toc'),
             ),
-            'default_value' => __('prepand', 'modularity-toc'),
+            'default_value' => 'prepend',
             'return_format' => 'value',
             'multiple' => 0,
             'allow_null' => 0,
@@ -184,4 +186,5 @@
     'show_in_rest' => 0,
     'display_title' => '',
 ));
-}
+
+}

@@ -15,7 +15,11 @@
     "homepage": "https://github.com/considbrs-webdev/modularity-toc#readme",
     "scripts": {
         "build": "vite build",
-        "dev": "vite build --watch --mode development"
+        "dev": "vite build --watch --mode development",
+        "i18n:pot": "wp i18n make-pot . languages/modularity-toc.pot --domain=modularity-toc --exclude=vendor,node_modules,languages",
+        "i18n:mo": "wp i18n make-mo languages/",
+        "i18n:php": "wp i18n make-php languages/",
+        "i18n": "npm run i18n:pot && npm run i18n:mo && npm run i18n:php"
     },
     "browserslist": [
         "> 1%",

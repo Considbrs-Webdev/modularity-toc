@@ -1,184 +1,185 @@
-[{
-    "key": "group_69450b33eef44",
-    "title": "Table of Contents General Settings",
-    "fields": [
-        {
-            "key": "field_69496200d7556",
-            "label": "Show sliding track?",
-            "name": "sliding_track",
-            "aria-label": "",
-            "type": "true_false",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "message": "",
-            "default_value": 1,
-            "allow_in_bindings": 0,
-            "ui_on_text": "",
-            "ui_off_text": "",
-            "ui": 1
-        },
-        {
-            "key": "field_6953e99550eef",
-            "label": "Sticky list?",
-            "name": "sticky_list",
-            "aria-label": "",
-            "type": "true_false",
-            "instructions": "Try to make the entire column where the table of contents module is placed sticky",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "message": "",
-            "default_value": 0,
-            "allow_in_bindings": 0,
-            "ui_on_text": "",
-            "ui_off_text": "",
-            "ui": 1
-        },
-        {
-            "key": "field_69eb405ec0696",
-            "label": "Automatic mobile insertion",
-            "name": "automatic_mobile_insertion",
-            "aria-label": "",
-            "type": "true_false",
-            "instructions": "Will try to inject the mobile table of contents in specified container",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "message": "",
-            "default_value": 0,
-            "allow_in_bindings": 0,
-            "ui_on_text": "",
-            "ui_off_text": "",
-            "ui": 1
-        },
-        {
-            "key": "field_69eb407bc0697",
-            "label": "CSS Selector",
-            "name": "mobile_css_selector_container",
-            "aria-label": "",
-            "type": "text",
-            "instructions": "Use CSS selectors like article, .c-article or #article",
-            "required": 1,
-            "conditional_logic": [
-                [
-                    {
-                        "field": "field_69eb405ec0696",
-                        "operator": "==",
-                        "value": "1"
-                    }
-                ]
-            ],
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "maxlength": "",
-            "allow_in_bindings": 0,
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
-        },
-        {
-            "key": "field_69eb4178ab43d",
-            "label": "Insertion method",
-            "name": "insertion_method",
-            "aria-label": "",
-            "type": "select",
-            "instructions": "",
-            "required": 1,
-            "conditional_logic": [
-                [
-                    {
-                        "field": "field_69eb405ec0696",
-                        "operator": "==",
-                        "value": "1"
-                    }
-                ]
-            ],
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "choices": {
-                "prepend": "Prepend",
-                "append": "Append"
-            },
-            "default_value": "prepand",
-            "return_format": "value",
-            "multiple": 0,
-            "allow_null": 0,
-            "allow_in_bindings": 0,
-            "ui": 1,
-            "ajax": 0,
-            "placeholder": "",
-            "create_options": 0,
-            "save_options": 0
-        },
-        {
-            "key": "field_67d6a7b1b3c01",
-            "label": "Mobile style",
-            "name": "mobile_style",
-            "aria-label": "",
-            "type": "select",
-            "instructions": "Choose how visible table of contents modules should behave below 992px.",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "choices": {
-                "dropdown": "Dropdown",
-                "expanded": "Expanded list"
-            },
-            "default_value": "dropdown",
-            "return_format": "value",
-            "multiple": 0,
-            "allow_null": 0,
-            "allow_in_bindings": 0,
-            "ui": 1,
-            "ajax": 0,
-            "placeholder": "",
-            "create_options": 0,
-            "save_options": 0
-        }
-    ],
-    "location": [
-        [
+[
+    {
+        "key": "group_69450b33eef44",
+        "title": "Table of Contents General Settings",
+        "fields": [
             {
-                "param": "options_page",
-                "operator": "==",
-                "value": "modularity-toc-settings"
+                "key": "field_69496200d7556",
+                "label": "Show sliding track?",
+                "name": "sliding_track",
+                "aria-label": "",
+                "type": "true_false",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "message": "",
+                "default_value": 1,
+                "allow_in_bindings": 0,
+                "ui_on_text": "",
+                "ui_off_text": "",
+                "ui": 1
+            },
+            {
+                "key": "field_6953e99550eef",
+                "label": "Sticky list?",
+                "name": "sticky_list",
+                "aria-label": "",
+                "type": "true_false",
+                "instructions": "Try to make the entire column where the table of contents module is placed sticky",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "message": "",
+                "default_value": 0,
+                "allow_in_bindings": 0,
+                "ui_on_text": "",
+                "ui_off_text": "",
+                "ui": 1
+            },
+            {
+                "key": "field_69eb405ec0696",
+                "label": "Automatic mobile insertion",
+                "name": "automatic_mobile_insertion",
+                "aria-label": "",
+                "type": "true_false",
+                "instructions": "Will try to inject the mobile table of contents in specified container",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "message": "",
+                "default_value": 0,
+                "allow_in_bindings": 0,
+                "ui_on_text": "",
+                "ui_off_text": "",
+                "ui": 1
+            },
+            {
+                "key": "field_69eb407bc0697",
+                "label": "CSS Selector",
+                "name": "mobile_css_selector_container",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Use CSS selectors like article, .c-article or #article",
+                "required": 1,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_69eb405ec0696",
+                            "operator": "==",
+                            "value": "1"
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "maxlength": "",
+                "allow_in_bindings": 0,
+                "placeholder": "",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_69eb4178ab43d",
+                "label": "Insertion method",
+                "name": "insertion_method",
+                "aria-label": "",
+                "type": "select",
+                "instructions": "",
+                "required": 1,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_69eb405ec0696",
+                            "operator": "==",
+                            "value": "1"
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "prepend": "Prepend",
+                    "append": "Append"
+                },
+                "default_value": "prepend",
+                "return_format": "value",
+                "multiple": 0,
+                "allow_null": 0,
+                "allow_in_bindings": 0,
+                "ui": 1,
+                "ajax": 0,
+                "placeholder": "",
+                "create_options": 0,
+                "save_options": 0
+            },
+            {
+                "key": "field_67d6a7b1b3c01",
+                "label": "Mobile style",
+                "name": "mobile_style",
+                "aria-label": "",
+                "type": "select",
+                "instructions": "Choose how visible table of contents modules should behave below 992px.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "dropdown": "Dropdown",
+                    "expanded": "Expanded list"
+                },
+                "default_value": "dropdown",
+                "return_format": "value",
+                "multiple": 0,
+                "allow_null": 0,
+                "allow_in_bindings": 0,
+                "ui": 1,
+                "ajax": 0,
+                "placeholder": "",
+                "create_options": 0,
+                "save_options": 0
             }
-        ]
-    ],
-    "menu_order": 0,
-    "position": "normal",
-    "style": "default",
-    "label_placement": "left",
-    "instruction_placement": "label",
-    "hide_on_screen": "",
-    "active": true,
-    "description": "",
-    "show_in_rest": 0,
-    "display_title": ""
-}]
-
+        ],
+        "location": [
+            [
+                {
+                    "param": "options_page",
+                    "operator": "==",
+                    "value": "modularity-toc-settings"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "left",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": "",
+        "show_in_rest": 0,
+        "display_title": ""
+    }
+]
