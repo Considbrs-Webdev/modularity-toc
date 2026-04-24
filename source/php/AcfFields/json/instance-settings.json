@@ -1,201 +1,186 @@
-[{
-    "key": "group_69424998c467b",
-    "title": "Table of Contents Settings",
-    "fields": [
-        {
-            "key": "field_6942499969780",
-            "label": "Include headings from following sidebars",
-            "name": "sidebars",
-            "aria-label": "",
-            "type": "select",
-            "instructions": "Headings in main container will always be included",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "choices": [],
-            "default_value": [],
-            "return_format": "value",
-            "multiple": 1,
-            "allow_custom": 0,
-            "placeholder": "",
-            "allow_null": 0,
-            "allow_in_bindings": 0,
-            "ui": 1,
-            "ajax": 0,
-            "create_options": 0,
-            "save_options": 0,
-            "search_placeholder": ""
-        },
-        {
-            "key": "field_694249ea69781",
-            "label": "Which heading levels to include in list",
-            "name": "heading_levels",
-            "aria-label": "",
-            "type": "select",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "choices": {
-                "h2": "H2",
-                "h3": "H3",
-                "h4": "H4"
-            },
-            "default_value": [
-                "h2"
-            ],
-            "return_format": "value",
-            "multiple": 1,
-            "allow_custom": 0,
-            "placeholder": "",
-            "allow_null": 0,
-            "allow_in_bindings": 0,
-            "ui": 1,
-            "ajax": 0,
-            "create_options": 0,
-            "save_options": 0,
-            "search_placeholder": ""
-        },
-        {
-            "key": "field_6942556c3aa83",
-            "label": "Place in card?",
-            "name": "place_in_card",
-            "aria-label": "",
-            "type": "true_false",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "message": "Yes",
-            "default_value": 0,
-            "allow_in_bindings": 0,
-            "ui": 0,
-            "ui_on_text": "",
-            "ui_off_text": ""
-        },
-        {
-            "key": "field_694255833aa84",
-            "label": "Ignore all headings in card except for card header?",
-            "name": "ignore_card_sub_headers",
-            "aria-label": "",
-            "type": "true_false",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "message": "Yes",
-            "default_value": 0,
-            "allow_in_bindings": 0,
-            "ui": 0,
-            "ui_on_text": "",
-            "ui_off_text": ""
-        },
-        {
-            "key": "field_67d6a94cb3c02",
-            "label": "Hide on mobile?",
-            "name": "hide_on_mobile",
-            "aria-label": "",
-            "type": "true_false",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "message": "Yes",
-            "default_value": 0,
-            "allow_in_bindings": 0,
-            "ui": 0,
-            "ui_on_text": "",
-            "ui_off_text": ""
-        },
-        {
-            "key": "field_67d6c68ab3c03",
-            "label": "Hide on desktop?",
-            "name": "hide_on_desktop",
-            "aria-label": "",
-            "type": "true_false",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "message": "Yes",
-            "default_value": 0,
-            "allow_in_bindings": 0,
-            "ui": 0,
-            "ui_on_text": "",
-            "ui_off_text": ""
-        },
-        {
-            "key": "field_67d8328fb3c04",
-            "label": "",
-            "name": "settings_version",
-            "aria-label": "",
-            "type": "hidden",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "2",
-            "allow_in_bindings": 0
-        }
-    ],
-    "location": [
-        [
+[
+    {
+        "key": "group_69424998c467b",
+        "title": "Table of Contents Settings",
+        "fields": [
             {
-                "param": "post_type",
-                "operator": "==",
-                "value": "mod-toc"
+                "key": "field_6942499969780",
+                "label": "Include headings from following sidebars",
+                "name": "sidebars",
+                "aria-label": "",
+                "type": "select",
+                "instructions": "Headings in main container will always be included",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": [],
+                "default_value": [],
+                "return_format": "value",
+                "multiple": 1,
+                "allow_custom": 0,
+                "placeholder": "",
+                "allow_null": 0,
+                "allow_in_bindings": 0,
+                "ui": 1,
+                "ajax": 0,
+                "create_options": 0,
+                "save_options": 0,
+                "search_placeholder": ""
+            },
+            {
+                "key": "field_694249ea69781",
+                "label": "Which heading levels to include in list",
+                "name": "heading_levels",
+                "aria-label": "",
+                "type": "select",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "h2": "H2",
+                    "h3": "H3",
+                    "h4": "H4"
+                },
+                "default_value": [
+                    "h2"
+                ],
+                "return_format": "value",
+                "multiple": 1,
+                "allow_custom": 0,
+                "placeholder": "",
+                "allow_null": 0,
+                "allow_in_bindings": 0,
+                "ui": 1,
+                "ajax": 0,
+                "create_options": 0,
+                "save_options": 0,
+                "search_placeholder": ""
+            },
+            {
+                "key": "field_6942556c3aa83",
+                "label": "Place in card?",
+                "name": "place_in_card",
+                "aria-label": "",
+                "type": "true_false",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "message": "Yes",
+                "default_value": 0,
+                "allow_in_bindings": 0,
+                "ui": 0,
+                "ui_on_text": "",
+                "ui_off_text": ""
+            },
+            {
+                "key": "field_694255833aa84",
+                "label": "Ignore all headings in card except for card header?",
+                "name": "ignore_card_sub_headers",
+                "aria-label": "",
+                "type": "true_false",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "message": "Yes",
+                "default_value": 0,
+                "allow_in_bindings": 0,
+                "ui": 0,
+                "ui_on_text": "",
+                "ui_off_text": ""
+            },
+            {
+                "key": "field_67d6a94cb3c02",
+                "label": "Hide on mobile?",
+                "name": "hide_on_mobile",
+                "aria-label": "",
+                "type": "true_false",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "message": "Yes",
+                "default_value": 0,
+                "allow_in_bindings": 0,
+                "ui": 0,
+                "ui_on_text": "",
+                "ui_off_text": ""
+            },
+            {
+                "key": "field_67d6c68ab3c03",
+                "label": "Hide on desktop?",
+                "name": "hide_on_desktop",
+                "aria-label": "",
+                "type": "true_false",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "message": "Yes",
+                "default_value": 0,
+                "allow_in_bindings": 0,
+                "ui": 0,
+                "ui_on_text": "",
+                "ui_off_text": ""
             }
         ],
-        [
-            {
-                "param": "block",
-                "operator": "==",
-                "value": "acf\/toc"
-            }
-        ]
-    ],
-    "menu_order": 0,
-    "position": "normal",
-    "style": "default",
-    "label_placement": "left",
-    "instruction_placement": "label",
-    "hide_on_screen": "",
-    "active": true,
-    "description": "",
-    "show_in_rest": 0,
-    "display_title": "",
-    "acfe_autosync": [
-        "json"
-    ],
-    "acfe_form": 0,
-    "acfe_meta": "",
-    "acfe_note": ""
-}]
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "mod-toc"
+                }
+            ],
+            [
+                {
+                    "param": "block",
+                    "operator": "==",
+                    "value": "acf\/toc"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "left",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": "",
+        "show_in_rest": 0,
+        "display_title": "",
+        "acfe_autosync": [
+            "json"
+        ],
+        "acfe_form": 0,
+        "acfe_meta": "",
+        "acfe_note": ""
+    }
+]

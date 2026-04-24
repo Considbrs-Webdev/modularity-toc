@@ -4,8 +4,6 @@ namespace ModularityToc;
 
 class TableOfContents extends \Modularity\Module
 {
-    private const CURRENT_INSTANCE_SETTINGS_VERSION = '2';
-
     public $slug = 'toc';
     public $icon = 'background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNMTQuNTI5LDE3Ljk3YzAtMi41NzEtMS42NDctNC43NTctMy45NDEtNS41NjlWOC4xMTcgICAgYzAtMS4wODktMC44ODMtMS45NzEtMS45Ny0xLjk3MWMtMS4wODcsMC0xLjk3MSwwLjg4MS0xLjk3MSwxLjk3MXY0LjI4NGMtMi4yOTQsMC44MTItMy45NDEsMi45OTgtMy45NDEsNS41NjkgICAgYzAsMi41NzEsMS42NDcsNC43NTcsMy45NDEsNS41Njl2MjAuMzkyYy0yLjI5NCwwLjgxMi0zLjk0MSwyLjk5OC0zLjk0MSw1LjU2OXMxLjY0Nyw0Ljc1NywzLjk0MSw1LjU2OXYyMC4zOTIgICAgYy0yLjI5NCwwLjgxMi0zLjk0MSwyLjk5OC0zLjk0MSw1LjU2OXMxLjY0Nyw0Ljc1NywzLjk0MSw1LjU2OXY0LjI4M2MwLDEuMDksMC44ODMsMS45NzEsMS45NzEsMS45NzEgICAgYzEuMDg3LDAsMS45Ny0wLjg4MSwxLjk3LTEuOTcxVjg2LjZjMi4yOTQtMC44MTIsMy45NDEtMi45OTgsMy45NDEtNS41NjlzLTEuNjQ3LTQuNzU4LTMuOTQxLTUuNTY5VjU1LjA2OSAgICBjMi4yOTQtMC44MTIsMy45NDEtMi45OTgsMy45NDEtNS41NjlzLTEuNjQ3LTQuNzU3LTMuOTQxLTUuNTY5VjIzLjUzOUMxMi44ODEsMjIuNzI4LDE0LjUyOSwyMC41NDEsMTQuNTI5LDE3Ljk3eiBNOTMuMzU0LDEwLjA4NyAgICBIMzYuMjA2YzAsMC0yLjY0LTAuMjM1LTMuNDQ5LDAuNTdMMjQuOTQsMTYuNDhjLTAuODA4LDAuODA1LTAuODA4LDIuMTA5LDAsMi45MTRsNy44MTcsNS44MjMgICAgYzAuODA5LDAuODA1LDMuNDQ5LDAuNjM1LDMuNDQ5LDAuNjM1aDU3LjE0OGMyLjE3OSwwLDMuOTQxLTEuNzYzLDMuOTQxLTMuOTQxdi03Ljg4MkM5Ny4yOTUsMTEuODUxLDk1LjUzMiwxMC4wODcsOTMuMzU0LDEwLjA4N3ogICAgIE05My4zNTQsNDEuNjE4SDM2LjIwNmMwLDAtMi42NC0wLjIzNS0zLjQ0OSwwLjU2OWwtNy44MTcsNS44MjRjLTAuODA4LDAuODA0LTAuODA4LDIuMTA5LDAsMi45MTNsNy44MTcsNS44MjMgICAgYzAuODA5LDAuODA1LDMuNDQ5LDAuNjM2LDMuNDQ5LDAuNjM2aDU3LjE0OGMyLjE3OSwwLDMuOTQxLTEuNzYzLDMuOTQxLTMuOTQxdi03Ljg4M0M5Ny4yOTUsNDMuMzgsOTUuNTMyLDQxLjYxOCw5My4zNTQsNDEuNjE4eiAgICAgTTkzLjM1NCw3My4xNDdIMzYuMjA2YzAsMC0yLjY0LTAuMjM0LTMuNDQ5LDAuNTY5TDI0Ljk0LDc5LjU0Yy0wLjgwOCwwLjgwNS0wLjgwOCwyLjEwOSwwLDIuOTE0bDcuODE3LDUuODIzICAgIGMwLjgwOSwwLjgwNSwzLjQ0OSwwLjYzNSwzLjQ0OSwwLjYzNWg1Ny4xNDhjMi4xNzksMCwzLjk0MS0xLjc2MywzLjk0MS0zLjk0MXYtNy44ODJDOTcuMjk1LDc0LjkxLDk1LjUzMiw3My4xNDcsOTMuMzU0LDczLjE0N3oiLz48L3N2Zz4=);';
     public $supports = array();
@@ -35,8 +33,6 @@ class TableOfContents extends \Modularity\Module
         $fields = $this->getFields();
         $slidingTrack = get_field('sliding_track', 'modularity-toc-settings');
         $mobileBehavior = get_field('mobile_behavior', 'modularity-toc-settings');
-        $legacyHideOnMobile = $this->getLegacyHideOnMobileSetting();
-        $usesModernDisplaySettings = $this->usesModernDisplaySettings($fields);
         $title = !empty($this->data['post_title']) && is_string($this->data['post_title'])
             ? $this->data['post_title']
             : __('Find on page', 'municipio');
@@ -45,10 +41,6 @@ class TableOfContents extends \Modularity\Module
             ? $mobileBehavior
             : 'dropdown';
 
-        if (!$usesModernDisplaySettings && $legacyHideOnMobile) {
-            $resolvedMobileBehavior = 'legacy-hidden';
-        }
-
         $data = [
             'ID' => uniqid('toc-'),
             'title' => $title,
@@ -56,10 +48,8 @@ class TableOfContents extends \Modularity\Module
             'headingLevels' => !empty($fields['heading_levels']) ? $fields['heading_levels'] : ['h2'],
             'placeInCard' => !empty($fields['place_in_card']) ? $fields['place_in_card'] : false,
             'ignoreCardSubHeaders' => !empty($fields['ignore_card_sub_headers']) ? $fields['ignore_card_sub_headers'] : false,
-            'hideOnMobile' => $usesModernDisplaySettings
-                ? !empty($fields['hide_on_mobile'])
-                : $legacyHideOnMobile,
-            'hideOnDesktop' => $usesModernDisplaySettings && !empty($fields['hide_on_desktop']),
+            'hideOnMobile' => !empty($fields['hide_on_mobile']),
+            'hideOnDesktop' => !empty($fields['hide_on_desktop']),
             'mobileBehavior' => $resolvedMobileBehavior,
             'slidingTrack' => is_bool($slidingTrack) ? $slidingTrack : true,
         ];
@@ -74,36 +64,6 @@ class TableOfContents extends \Modularity\Module
         }
 
         return $viewData;
-    }
-
-    private function usesModernDisplaySettings(array $fields): bool
-    {
-        if (array_key_exists('settings_version', $fields)) {
-            return (string) $fields['settings_version'] === self::CURRENT_INSTANCE_SETTINGS_VERSION;
-        }
-
-        return array_key_exists('hide_on_mobile', $fields) || array_key_exists('hide_on_desktop', $fields);
-    }
-
-    private function getLegacyHideOnMobileSetting(): bool
-    {
-        $optionNames = [
-            'modularity-toc-settings_hide_on_mobile',
-            'options_hide_on_mobile',
-            'options_modularity-toc-settings_hide_on_mobile',
-        ];
-
-        foreach ($optionNames as $optionName) {
-            $value = get_option($optionName, null);
-
-            if ($value !== null) {
-                return filter_var($value, FILTER_VALIDATE_BOOLEAN);
-            }
-        }
-
-        $acfValue = get_field('hide_on_mobile', 'modularity-toc-settings');
-
-        return filter_var($acfValue, FILTER_VALIDATE_BOOLEAN);
     }
 
     /**
