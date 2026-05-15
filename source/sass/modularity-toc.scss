@@ -103,3 +103,11 @@
     }
   }
 }
+
+body.modularity-toc--sticky-sidebar {
+  #sidebar-left-sidebar:has(.modularity-mod-toc),
+  #sidebar-right-sidebar:has(.modularity-mod-toc) {
+    position: sticky;
+    top: var(--sticky-sidebar-top);
+  }
+}
