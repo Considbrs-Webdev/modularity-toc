@@ -7,8 +7,7 @@ class TableOfContents {
     static DEFAULT_MOBILE_BREAKPOINT = '78em';
 
     /**
-     * Main content selectors - always scanned for headings.
-     * Municipio templates have used different article/content wrappers over time.
+     * Main content selectors - always scanned for headings
      */
     static MAIN_CONTENT_SELECTORS = [
         'article.c-article',
