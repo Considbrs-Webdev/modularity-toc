@@ -7,9 +7,15 @@ class TableOfContents {
     static DEFAULT_MOBILE_BREAKPOINT = '78em';
 
     /**
-     * Main content selector - always scanned for headings.
+     * Main content selectors - always scanned for headings.
+     * Municipio templates have used different article/content wrappers over time.
      */
-    static MAIN_CONTENT_SELECTOR = 'article.c-article';
+    static MAIN_CONTENT_SELECTORS = [
+        'article.c-article',
+        '#main-content .c-content-page__content',
+        '.c-content-page',
+        '#main-content',
+    ];
 
     /**
      * Maps sidebar ACF values to DOM selectors.
@@ -102,7 +108,8 @@ class TableOfContents {
      * @returns {string[]}
      */
     getContainerSelectors() {
-        const selectors = [TableOfContents.MAIN_CONTENT_SELECTOR];
+        const mainContentSelector = TableOfContents.MAIN_CONTENT_SELECTORS.find((selector) => document.querySelector(selector));
+        const selectors = mainContentSelector ? [mainContentSelector] : [];
         const sidebars = Array.isArray(this.config.sidebars) ? this.config.sidebars : [];
         const sidebarSelectorMap = {
             ...TableOfContents.SIDEBAR_SELECTOR_MAP,
@@ -112,7 +119,9 @@ class TableOfContents {
         for (const key of sidebars) {
             const sel = sidebarSelectorMap[key];
             if (sel) {
-                selectors.push(sel);
+                if (!selectors.includes(sel)) {
+                    selectors.push(sel);
+                }
             }
         }
 
@@ -121,8 +130,12 @@ class TableOfContents {
 
     findHeadings() {
         const headings = [];
-        const selector = this.config.headingLevels.join(', ');
+        const headingLevels = Array.isArray(this.config.headingLevels) && this.config.headingLevels.length > 0
+            ? this.config.headingLevels
+            : ['h2'];
+        const selector = headingLevels.join(', ');
         const containerSelectors = this.getContainerSelectors();
+        const seenHeadings = new Set();
 
         for (const containerSelector of containerSelectors) {
             const container = document.querySelector(containerSelector);
@@ -134,6 +147,12 @@ class TableOfContents {
             const containerHeadings = container.querySelectorAll(selector);
 
             for (const heading of containerHeadings) {
+                if (seenHeadings.has(heading)) {
+                    continue;
+                }
+
+                seenHeadings.add(heading);
+
                 if (!this.isElementVisible(heading)) {
                     continue;
                 }
