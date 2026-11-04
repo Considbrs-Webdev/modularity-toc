@@ -5,40 +5,23 @@ namespace ModularityToc\Helper;
 class PagePurge
 {
     /**
-     * Ask page caches (LiteSpeed, Varnish) to purge the given posts.
+     * Ask LiteSpeed Cache to purge all cached pages.
      *
-     * - LiteSpeed Cache: purged through its public `litespeed_purge_post` action.
-     * - Varnish: a non-blocking PURGE request to the permalink, like Modularity's own CachePurge.
+     * The TOC settings affect every page that uses a TOC, which can be hundreds of pages. A single
+     * purge-all is much cheaper than purging each page separately, and settings rarely change.
+     * Does nothing when LiteSpeed Cache is not active.
      *
      * Fires `ModularityToc/PagePurge/Purged` afterwards so other cache layers can hook in.
      *
-     * @param int[] $postIds
      * @return void
      */
-    public static function purge(array $postIds): void
+    public static function purgeAll(): void
     {
-        $postIds = array_values(array_unique(array_filter(array_map('intval', $postIds))));
-
-        foreach ($postIds as $postId) {
-            do_action('litespeed_purge_post', $postId);
-
-            $url = get_permalink($postId);
-
-            if (!empty($url)) {
-                wp_remote_request($url, array(
-                    'method'      => 'PURGE',
-                    'timeout'     => 2,
-                    'redirection' => 0,
-                    'blocking'    => false,
-                ));
-            }
-        }
+        do_action('litespeed_purge_all');
 
         /**
-         * Fires after page cache purge requests have been sent for pages using the TOC.
-         *
-         * @param int[] $postIds
+         * Fires after the page cache has been purged because the TOC settings changed.
          */
-        do_action('ModularityToc/PagePurge/Purged', $postIds);
+        do_action('ModularityToc/PagePurge/Purged');
     }
 }

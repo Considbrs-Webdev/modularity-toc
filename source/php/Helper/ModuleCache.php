@@ -10,33 +10,44 @@ class ModuleCache
     private const POST_TYPE = 'mod-toc';
 
     /**
-     * Delete the Modularity fragment cache for every TOC placement on the current site.
+     * Clear Modularity's fragment cache so TOC modules and blocks are rendered with current settings.
      *
-     * Modularity only clears a module's fragment cache when that module post is saved,
-     * so changes to the global settings page need to clear it explicitly.
-     * Mirrors the cache group naming in Modularity\Helper\Cache.
+     * Modularity only clears a module's fragment cache when that module post is saved, so changes
+     * to the global settings page need to clear it explicitly. Mirrors the cache group naming in
+     * Modularity\Helper\Cache.
      *
-     * Two kinds of entries are cleared:
+     * When the object cache supports flushing a group (e.g. Redis Object Cache), the whole fragment
+     * group is flushed in one operation. This is much cheaper than looking up every page using the TOC,
+     * and the fragments are simply rebuilt on the next request.
+     *
+     * Otherwise the entries are deleted one by one:
      * - Module posts (mod-toc): cached under the module post id.
      * - Block usage (acf/toc): cached under the id of the post containing the block.
      *
-     * @return int[] Ids of the posts/pages where the TOC is used, so their page cache can be purged.
+     * @return void
      */
-    public static function clear(): array
+    public static function clear(): void
     {
         $group = 'modules' . (is_multisite() ? '-' . get_current_blog_id() : '');
+
+        if (self::canFlushGroup()) {
+            wp_cache_flush_group($group);
+            return;
+        }
 
         foreach (self::getModuleIds() as $moduleId) {
             wp_cache_delete($moduleId, $group);
         }
 
-        $postIds = self::getUsageIds();
-
-        foreach ($postIds as $postId) {
+        foreach (self::getUsageIds() as $postId) {
             wp_cache_delete($postId, $group);
         }
+    }
 
-        return $postIds;
+    private static function canFlushGroup(): bool
+    {
+        // wp_cache_supports() and wp_cache_flush_group() are part of WordPress core since 6.1.
+        return wp_cache_supports('flush_group');
     }
 
     /**

@@ -129,6 +129,7 @@ class App
             return;
         }
 
-        PagePurge::purge(ModuleCache::clear());
+        ModuleCache::clear();
+        PagePurge::purgeAll();
     }
 }

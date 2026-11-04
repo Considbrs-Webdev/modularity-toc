@@ -14,12 +14,12 @@ namespace {
     {
         $GLOBALS['toc_test'] = $state + array(
             'multisite'    => false,
+            'flush_group'  => false,
+            'flushed'      => array(),
             'blog_id'      => 1,
             'module_ids'   => array(),
             'usage_ids'    => array(),
-            'permalinks'   => array(),
             'cache_delete' => array(),
-            'requests'     => array(),
             'actions'      => array(),
             'get_posts'    => array(),
         );
@@ -49,6 +49,17 @@ namespace ModularityToc\Helper {
         return $GLOBALS['toc_test']['blog_id'];
     }
 
+    function wp_cache_supports($feature)
+    {
+        return $feature === 'flush_group' && $GLOBALS['toc_test']['flush_group'];
+    }
+
+    function wp_cache_flush_group($group)
+    {
+        $GLOBALS['toc_test']['flushed'][] = $group;
+        return true;
+    }
+
     function get_posts($args)
     {
         $GLOBALS['toc_test']['get_posts'][] = $args;
@@ -61,16 +72,6 @@ namespace ModularityToc\Helper {
         return true;
     }
 
-    function get_permalink($postId)
-    {
-        return $GLOBALS['toc_test']['permalinks'][$postId] ?? false;
-    }
-
-    function wp_remote_request($url, $args = array())
-    {
-        $GLOBALS['toc_test']['requests'][] = array($url, $args);
-        return array();
-    }
 
     function do_action($hook, ...$args)
     {
