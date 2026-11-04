@@ -5,6 +5,7 @@ namespace ModularityToc;
 use ModularityToc\AcfFields\AcfFieldLoader;
 use ModularityToc\Helper\CacheBust;
 use ModularityToc\Helper\ModuleCache;
+use ModularityToc\Helper\PagePurge;
 
 class App
 {
@@ -114,7 +115,7 @@ class App
     }
 
     /**
-     * Clear cached TOC module output when the settings page is saved.
+     * Clear cached TOC output (object cache and page cache) when the settings page is saved.
      *
      * The rendered module markup contains values from the settings page (e.g. mobile insertion
      * selector and method), but Modularity only clears its fragment cache when a module post is saved.
@@ -128,6 +129,6 @@ class App
             return;
         }
 
-        ModuleCache::clear();
+        PagePurge::purge(ModuleCache::clear());
     }
 }
