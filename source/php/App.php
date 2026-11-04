@@ -4,6 +4,7 @@ namespace ModularityToc;
 
 use ModularityToc\AcfFields\AcfFieldLoader;
 use ModularityToc\Helper\CacheBust;
+use ModularityToc\Helper\ModuleCache;
 
 class App
 {
@@ -18,6 +19,9 @@ class App
         // Enqueue scripts and styles
         add_action('wp_enqueue_scripts', array($this, 'enqueueStyles'));
         add_action('wp_enqueue_scripts', array($this, 'enqueueScripts'));
+
+        // Clear cached module output when the settings page is saved
+        add_action('acf/save_post', array($this, 'clearModuleCacheOnSettingsSave'), 20);
 
         // Load ACF field values
         new AcfFieldLoader();
@@ -107,5 +111,23 @@ class App
                 'icon_url'      => false,
             ));
         }
+    }
+
+    /**
+     * Clear cached TOC module output when the settings page is saved.
+     *
+     * The rendered module markup contains values from the settings page (e.g. mobile insertion
+     * selector and method), but Modularity only clears its fragment cache when a module post is saved.
+     *
+     * @param int|string $postId
+     * @return void
+     */
+    public function clearModuleCacheOnSettingsSave($postId)
+    {
+        if ($postId !== 'modularity-toc-settings') {
+            return;
+        }
+
+        ModuleCache::clear();
     }
 }
